@@ -15,10 +15,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <link href='https://fonts.googleapis.com/css?family=Knewave' rel='stylesheet'>
         <link rel="stylesheet" href="{% static 'style.css'%}">
-        <script src="{% static 'index.js'%}"  >
-                </script>
+        <script src="{% static 'index.js'%}"  ></script>
 
-            </head>
+
+</head>
     <body style="overflow-x:hidden">
                 <!--[if lt IE 7]>
                     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <nav  id="nav" class="navbar navbar-expand-lg navbar-dark">
+        <nav  id="nav" class="navbar navbar-expand-lg navbar-dark" style="position:sticky;top:0">
           <a class="navbar-brand" href="#">Navbar</a>
           <div class="vr bg-white "></div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,7 +146,7 @@
             </div>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent" style="position:sticky;top:0;z-index:1">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -169,15 +169,15 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
               </li>
             </ul>
-            <div style="display:flex" id="searchnav">
-              <form class="form-inline my-2 my-lg-1" style="display:flex">
+            <div style="display:flex;position:sticky;top:0;z-index:1" id="searchnav" >
+              <form class="form-inline my-2 my-lg-1" style="display:flex;position:sticky;top:0;z-index:1">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <div class="vr bg-white "></div>
-
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
           </div>
+        </div>
         </nav>
             <div id="main">
                 {%block main%}{%endblock%}
