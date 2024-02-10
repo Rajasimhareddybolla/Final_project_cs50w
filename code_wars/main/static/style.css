@@ -1,0 +1,102 @@
+*{
+    background-color: #3B3939;
+}
+#head
+{
+    display:inline;
+    align-self: flex-end;
+    color:white;
+    font-family: 'Knewave';
+    font-size:  350%;
+    padding-top: 1.5%;
+}
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: center;
+}
+.p-3{
+    
+    color: wheat;
+}
+hr.class-5 {
+    background-color:#3B3939;
+    border-top: 2px dashed #a9a7a7;
+}
+.container.div{
+    display: flex;
+}
+button{
+    margin-left: 2%;
+}
+#navbarSupportedContent{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+@media only screen and (max-width: 1000px) {
+    .form-control mr-sm-2{
+        display: none;
+    }
+    form{
+        display: none;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    #navbarSupportedContent{
+        display: none;
+
+    }
+
+}
+#msg-box{
+ display: flex;
+}
+#frnds_chat{
+    font-family:"";
+}
+.msg-box{
+    border-radius: 5%;
+    border-color: #3B3939;
+    background-color: white;
+}
+.message_block {
+    border: 1px solid #333; /* Dark grey border */
+    padding: 10px; /* Some padding */
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75); /* Shadow effect */
+
+}
+
+.navbar {
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); /* Shadow effect */
+    background-color: #3B3939; /* Darker grey background */
+    -webkit-margin-collapse: collapse;
+}
+.card-title{
+    color: #b04d4d; /* Light grey text color */
+    font-family: Arial, sans-serif; /* Font family */
+    font-size: 16px; /* Font size */
+    text-shadow: 1px 1px 1.3px rgb(157, 153, 153); /* Text shadow effect */
+
+}
+.card-body{
+    display: flex;
+    flex-direction: column;
+}
+.card-text{
+        color: #808080; /* Light grey text color */
+        font-size: 12px; /* Smaller font size */
+        font-style: italic; /* Italicized text */
+        text-overflow: ellipsis;
+        flex-grow: 1;
+}
+.Message_title{
+    text-shadow: 1px 1px 2px rgb(157, 153, 153); /* Text shadow effect */
+    color:white;
+    font-family: "Knewave"; /* Font family */
+    font-size: 17px; /* Font size */
+}
