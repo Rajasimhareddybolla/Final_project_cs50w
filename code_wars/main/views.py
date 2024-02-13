@@ -1,12 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import Q
+import json
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.core import serializers # can able to convert a object like django model into json used in apis
 from django import forms
 import os
 from . import admin
-from .models import User,session_active,Questions
+from .models import User,session_active,Questions,Chats
 from django.shortcuts import redirect
 from  django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
@@ -86,32 +89,56 @@ def register(request):
 def index(request):
     if request.user.is_authenticated:
         questions = Questions.objects.all()
-        paginator = Paginator(questions,10)
-        page_num = request.GET.get('page')
-        page_obj = paginator.get_page(page_num)
+        # paginator = Paginator(questions,10)
+        # page_num = request.GET.get('page')
+        # page_obj = paginator.get_page(page_num)
         return render(request,"main/index.html",{
-            'questions':page_obj
+            'questions':questions
         }) 
     return redirect("login")
 def prb(request):
     if request.user.is_authenticated:
-        return render(request,"main/problem.html")
+        return render(request,"main/problem.html",{
+            'questions':Questions.objects.all()
+        })
     return redirect("login")
 def frnds(request):
     if request.user.is_authenticated:
-        return render(request,"main/friends_con.html")
+        user =User.objects.get(pk = request.user.pk)
+        follwers = user.follwers.all()
+        return render(request,"main/friends_con.html",{"followers":follwers})
     return redirect("login")
-def codespace(request):
+def codespace(request,id):
     if request.user.is_authenticated:
-        question = Questions.objects.get(pk = int(request.POST["id"]))
+        question = Questions.objects.get(id = id)
         return render(request,"main/codespace.html",{
             'question':question
         })
     return redirect("login")
-
 
 def Logout(request):
     ses = session_active.objects.get(user = request.user)
     ses.delete()
     logout(request)
     return redirect('login')
+@csrf_exempt
+def messages(request):
+    id =json.loads(request.body)
+    print(id)
+    id = id["reciver"]
+    reciver = User.objects.get(id = id)
+    messages = Chats.objects.filter(Q(user = request.user) |  Q(user=reciver) )
+    js = serializers.serialize('json',messages)
+    return JsonResponse(js,safe=False)
+@csrf_exempt
+def send(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data)
+        msg = data["msg"]
+        id = int(data["id"])
+        reciver = User.objects.get(id = id)
+        chat = Chats(user = request.user,reciver = reciver,messages = msg)
+        chat.save()
+        return JsonResponse({"message":"sucess"})
+    return redirect("index")

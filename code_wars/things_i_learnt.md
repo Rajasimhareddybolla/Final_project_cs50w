@@ -68,7 +68,7 @@ question = models.ForeignKey(Questions, on_delete=models.CASCADE,related_name = 
             ==>  obj_related.related_name.column_name you want
             2// more proeffectient way while rendering in html
 ***
- jinja cant render the above syntax ()\
+ jinja cant render the above syntax ()\q.tags_for_question.all()[0 ]tags_tecnology 
  so we have to use for loop to acess and get the values
 {%for question in questions%}
     {%for degree in question.stats_question.all%}
@@ -78,3 +78,36 @@ question = models.ForeignKey(Questions, on_delete=models.CASCADE,related_name = 
 ***
 in jinja {{question.difficulty*10}} //not work 
 but {{question.difficutly}*10} works fine 
+
+
+to convert an django model into json response 
+from django.core import serializers # can able to convert a object like django model into json used in apis
+serializer.serialize('json',obj)
+
+to get multiple data from a attribute you can use data-set attribute
+
+<a herf="" data-id={{questions.id}}>{{questions.username}}</a>
+now selctct this attribute
+then let co =document.queryselector("a")
+co.innerHtml == "question.name"
+co.dataset.id = "question.id"
+
+
+api calling and sending data
+fetch("question",{
+    method = "POST"
+    body:{"id":34}
+})
+.then ... 
+ to retrive the same data
+python
+
+import json
+def question(request):
+    res = json.response(request.body)
+    id = res["id"]
+    // results in 34
+
+
+
+to convert a '[{"raja":"name"}]' which is in string to a list then use JSON.parse(string) return list

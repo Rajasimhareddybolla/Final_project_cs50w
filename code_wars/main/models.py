@@ -2,12 +2,12 @@ import datetime
 from django.db import models
 from datetime import date, timedelta
 from django.contrib.auth.models import AbstractUser
-no = {i:i for i in range(0,11)}
+no = {i*10:i*10 for i in range(0,11)}
 reactions = (("love","❤️"),( "smile","😂"),("Robot", "🦾"),( "skull","💀"), ("celebrate","🥳"),("bat" ,"🏏"))
 class User(AbstractUser, models.Model):
     # score = models.IntegerField(default=0, choices=no)
     following = models.ManyToManyField("self", symmetrical=False, related_name="follwers",blank=True)
-
+    image = models.TextField(default ="https://images.unsplash.com/photo-1533228876829-65c94e7b5025?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZnJlZSUyMGxpZmV8ZW58MHx8MHx8fDA%3D")
 class Questions(models.Model):
     Question_title = models.CharField(max_length = 65)
     Question_discription = models.TextField(null=False)
@@ -61,8 +61,7 @@ class Chats(models.Model):
     reciver = models.ForeignKey(User, on_delete=models.CASCADE,related_name = "msg_from")
     messages = models.TextField()
     time = models.DateTimeField(auto_now_add=True)
-    
-    Reaction = models.TextField(choices = reactions)
+    Reaction = models.TextField(choices = reactions,blank = True)
 
 class Group_chat(models.Model):
     sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name = "sender_chat")

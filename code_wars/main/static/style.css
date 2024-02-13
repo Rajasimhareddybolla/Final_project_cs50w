@@ -131,8 +131,92 @@ button{
     50%{transform: translateY(-10%);}
     
 }
-span{
-    background: linear-gradient(180deg ,rgb(117, 117, 198) , rgb(220, 140, 140));
+span,.navbar a{
+    background: rgb(174,238,214);
+    background: linear-gradient(90deg, rgba(174,238,214,1) 6%, rgba(226,217,176,1) 13%, rgba(148,187,233,1) 100%);
     background-clip: text;
     color: transparent;
+}
+a{
+    background-color: transparent;
+}
+code{
+    background-color: inherit;
+}
+.bars>span{
+
+    background: rgb(174,238,214);
+    background: linear-gradient(90deg, rgba(174,238,214,1) 6%, rgba(179,226,176,0.8758096988795518) 13%, rgba(148,187,233,1) 100%);
+    background-clip: text;
+    color: transparent;
+}
+.code_explanation span{
+    font-family: 'Times New Roman', Times, serif;
+    color: #ec1b1b;
+}
+.description{
+    text-align-last:left;
+    text-shadow: #3B3939;
+}
+a{
+    color: inherit;
+    text-decoration: none;
+}
+a:hover{
+    color: cadetblue;
+
+}
+.friends{
+    width: inherit;
+    padding: 5px;
+    color: #e42121;
+    border-radius: 5px; 
+    cursor: pointer;
+
+}
+.friends:hover{
+    background-color: aqua;
+    color: brown;
+    background: rgb(174,238,214);
+    background: linear-gradient(90deg, rgba(174,238,214,1) 6%, rgba(179,226,176,0.8758096988795518) 13%, rgba(148,187,233,1) 100%);
+    font-size: 80%;
+}
+
+.list-group-item{
+    background: rgb(174,238,214);
+    background: linear-gradient(90deg, rgba(174,238,214,1) 6%, rgba(179,226,176,0.8758096988795518) 13%, rgba(148,187,233,1) 100%);
+    background-clip:text;
+    color: transparent;
+    display: flex;
+    border-color: inherit;
+    justify-content: space-between;
+}
+.list-group-item:hover{
+    background-clip: inherit;
+    background: #464545;
+    color: white;
+}
+#list-group-item{
+    background: rgb(124,189,183);
+    background: linear-gradient(90deg, rgba(124,189,183,1) 13%, rgba(227,206,252,1) 56%, rgba(148,187,233,1) 100%);
+    background-clip:text;
+    color: transparent;
+}
+#card-title3{
+    background: rgb(124,189,183);
+    background: linear-gradient(90deg, rgba(124,189,183,1) 13%, rgba(255,254,4,1) 56%, rgba(148,187,233,1) 100%);
+    background-clip: text;
+    color: transparent;
+}
+.date{
+    font-size: smaller;
+    color: #bebcbc;
+    
+}
+.raja{
+    border: 0;
+    border-radius: 5px;
+}
+#msg-section-for{
+    overflow-y: scroll;
 }

@@ -1,33 +1,55 @@
 {%extends "main/layout.html"%}
+{%load static%}
 {%block title%}
     Conversation
 {%endblock%}
 {%block main%}
     <div class="main" style="display:flex; height: 80vh;justify-content:space-between">
       <div class="card" style="width: 40%; color: black;">
-        <img src="..." class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <div class="form-group">
+            <div style="display:flex">
+              <input class="form-control input-sm" style="height:40%;background:#E5E5CB;color :black" id="inputsm" type="text" placeholder="Search">
+            </div>
+          </div>
+
+        <div class="continer" style="display:flex;flex-direction:column;align-content:flex-end">
+          <div>
+          {%for follower in  followers %}
+          <div id ="#chat">
+            <div class = "friends" style="width:inherit;padding:5px;" data-id = {{follower.id}}>{{follower.username}}</div>
+          </div>
+          {%endfor%}
+        </div>
+        </div >
+
         </div>
       </div>
       <div class="card" style="width: 55%; color: black;">
-      <div style="height: 200vh;">
+      <div id = "msg-section-for"style="height: 200vh;">
         <img src="..." class="card-img-top" alt="...">
         <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <h3  id="card-title3">Card title</h5>
+        <div class="card" style="width: inherit;background:inherit;height:80%">
+          <ul class="list-group list-group-flush" id="ul_friends">
+            <div class="raja">
+            <li class="list-group-item"  style="display:flex;justify-content:space-around"><span>A third item</span ><span class="date">2024-02-12T14:25:18.765Z</span></li>
+            </div>
+          </ul>
         </div>
-      </div>
-      
+
+        </div>
+
+    </div>
+    <div style="position:relative;display:flex;width:100%;flex-direction:row">
+        <textarea id="messageInput"style="width:80%;margin-left:20px" data-id = 900 class="form-control" rows="1" cols="70" placeholder="Type your message here..." ></textarea>
+    </div>
+
       <div style="height: 100vh;">
         <hr style="color:white ">
         <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p  class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         <a href="#" class="btn btn-primary">Go somewhere</a>
-
       </div>
       </div>
     </div>

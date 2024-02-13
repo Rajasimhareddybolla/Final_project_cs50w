@@ -13,80 +13,41 @@ Problem_tackel_space
             </div>
 
         </div>
-        <table class="table table-hover table-dark" >
-            <!-- Your table content -->
+        <table class="table table-hover table-info" >
 
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-        </thead>
+        <thead class="table-black disabled" style="background-color:black">
+            <tr>
+                <th scope="col">id</th>
+                <th  colspan="3">Title</th>
+                <th>Difficulty</th>
+                <th>Acceptance</th>
+            </tr>
+            </thead>
         <tbody>
-        
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>    <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>  
+            <!-- Your table content -->
+            {%for question in questions%}
+            <tr>
+              <th scope="row">{{forloop.counter}}</th>
+              <td colspan="3">
+                  <a type="text" name="id" href ="code/{{question.id}}"> {{question.Question_title}} </a>
+            </td>
+              {%for degree in question.stats_question.all%}
+              <td>
+                {{degree.Difficulty}}
+
+              </td>
+              <td>
+                {{degree.Acceptance}}
+              </td>
+              {%endfor%}
+            </tr>
+          {% endfor %}
         </tbody>
     </table>
     </div>
     <div style="display:inline; width:20%;padding-top:5%">
         <div class="card" style="width: 18rem;">
-            <img src="{%static 'calender.jpeg'%}" class="card-img-top" alt="...">
+            <img src="https://github.com/mdo.png" class="card-img-top" alt="...">
             <div class="card-body">
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             </div>

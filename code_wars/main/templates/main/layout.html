@@ -23,108 +23,31 @@
                 <!--[if lt IE 7]>
                     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
                 <![endif]-->
-        <div id="sidebar" style="display:none">
-            
-            <div class="container-fluid bg-dark">
-                <div class="row flex-nowrap bg-dark">
-                    <div class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 bg-dark">
-                        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 bg-dark">
-                            <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none bg-dark">
-                                <span class="fs-5 d-none d-sm-inline bg-dark" style="    font-family: 'Knewave';">Menu</span>
-                                
-                            </a>
-                            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start bg-dark" id="menu">
-                                <li class="nav-item bg-dark">
-                                    <a href="#" class="nav-link align-middle px-0 bg-dark" >
-                                        <i class="fs-4 bi-house bg-dark"></i> <span class="ms-1 d-none d-sm-inline bg-dark">Home</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle bg-dark">
-                                        <i class="fs-4 bi-speedometer2 bg-dark"></i> <span  class="ms-1 d-none d-sm-inline bg-dark">Dashboard</span> </a>
-                                    <ul class="collapse show nav flex-column ms-1 bg-dark" id="submenu1" data-bs-parent="#menu">
-                                        <li class="w-100 bg-dark">
-                                            <a href="#" class="bg-dark nav-link px-0"> <span class="d-none d-sm-inline bg-dark">Item</span> 1 </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="nav-link bg-dark px-0"> <span class=" bg-dark d-none d-sm-inline">Item</span> 2 </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#" class="nav-link px-0 align-middle bg-dark">
-                                        <i class="fs-4 bi-table bg-dark"></i> <span class="bg-dark ms-1 d-none d-sm-inline">Orders</span></a>
-                                </li>
-                                <li>
-                                    <a href="#submenu2" data-bs-toggle="collapse" class="bg-dark nav-link px-0 align-middle ">
-                                        <i class="fs-4 bi-bootstrap bg-dark"></i> <span class="bg-dark ms-1 d-none d-sm-inline">Bootstrap</span></a>
-                                    <ul class="bg-dark collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                                        <li class="w-100 bg-dark">
-                                            <a href="#" class="bg-dark nav-link px-0"> <span class="d-none d-sm-inline bg-dark">Item</span> 1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="bg-dark nav-link px-0"> <span class="d-none d-sm-inline bg-dark">Item</span> 2</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle bg-dark">
-                                        <i class="fs-4 bi-grid bg-dark"></i> <span class="ms-1 d-none d-sm-inline bg-dark">Products</span> </a>
-                                        <ul class="collapse nav flex-column ms-1 bg-dark" id="submenu3" data-bs-parent="#menu">
-                                        <li class="w-100 bg-dark">
-                                            <a href="#" class="bg-dark nav-link px-0"> <span class="d-none d-sm-inline bg-dark">Product</span> 1</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="bg-dark nav-link px-0"> <span class="d-none d-sm-inline bg-dark">Product</span> 2</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="nav-link px-0 bg-dark"> <span class="d-none d-sm-inline bg-dark">Product</span> 3</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="nav-link px-0 bg-dark"> <span class="bg-dark d-none d-sm-inline">Product</span> 4</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#" class="nav-link px-0 align-middle bg-dark">
-                                        <i class="fs-4 bi-people bg-dark"></i> <span class="bg-dark ms-1 d-none d-sm-inline">Customers</span> </a>
-                                </li>
-                            </ul>
-                            <hr>
-                            <div class="dropdown pb-4 bg-dark">
-                                <a href="#" class="bg-dark d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark">
-                                    <span class="d-none d-sm-inline mx-1 bg-dark">loser</span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                                    <li><a class="dropdown-item " href="#">New project...</a></li>
-                                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="{%url 'logout' %}">Sign out</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            
-        </div>
         <div class="section-1" style="display:flex;justify-content:space-between;flex-wrap:wrap">
             <div style ="display:flex;width:65%;justify-content:space-between" id="section-11">
                 <span class="dot" id="profile_sidebar" style="flex-wrap:nowrap"></span>
                 <h1 id="head" style="display:flex;flex-wrap:nowrap">code-colab-hub</h1>
             </div>
-            <div id="dot" style="display:flex;justify-content:flex-end;width:auto;">
-                <span class="dot" ></span>
+            <div class="dropdown pb-4 " style="background:inherit">
+                <a href="#" class=" d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark">
+                    <span class="d-none d-sm-inline mx-1 bg-dark">loser</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                    <li><a class="dropdown-item " href="#">New Problem...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{%url 'logout' %}">Sign out</a></li>
+                </ul>
+            </div>
             </div>
         </div>
 
         <nav  id="nav" class="navbar navbar-expand-lg navbar-dark" style="position:sticky;top:0">
-          <a class="navbar-brand" href="#">Navbar</a>
+          <a class="navbar-brand" href="">Code-chef</a>
           <div class="vr bg-white "></div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 
@@ -149,24 +72,16 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent" style="position:sticky;top:0;z-index:1">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+                <a class="nav-link" href="{%url 'friends'%}">Connect</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                <a class="nav-link" href="{%url 'prb'%}">Problems...</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="Solved">Solved one</a>
               </li>
             </ul>
             <div style="display:flex;position:sticky;top:0;z-index:1" id="searchnav" >
