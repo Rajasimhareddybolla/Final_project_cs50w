@@ -30,22 +30,32 @@
             <span class="h6">Difficulty</span>
             <span class="h6">Acceptance rate</span>
             <span class="h6">Tricky one</span>
+
         </div>
-        <div>
-            <div>Problem name, problem topics</div>
-            <div>UPLOAD DOCUMENT SECTION</div>
+        <div style="color : wheat;display:flex;justify-content:space-around">
+            <div style="margin:30px">Problem name, problem topics</div>
+            <div>
+            <h6 style="margin:30px;self-align:center">Upload the files hear</span>
+            {% comment %} <input type="file" > {% endcomment %}
+            </div>
         </div>
     </div>
-    <div class="code-section" style="display: flex; justify-content: space-around; height: 50vh;text-align:center;align-items:center">
-        <div class="description" style="color:#0D1321;width: 45%; height: 100%; background-color:wheat; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; padding: 20px; font-family: Arial, sans-serif; overflow-y: auto; border-radius: 10px;">
+    <div class="code-section" style="display: flex;flex-wrap:wrap; justify-content: space-around; height: 50vh;text-align:center;align-items:center;wrap;flex-wrap:wrap">
+        <div class="description" style="color:#0D1321;width: 45%;min-width:30%; height: 100%; background-color:wheat; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; padding: 20px; font-family: Arial, sans-serif; overflow-y: auto; border-radius: 10px;">
             Code description
             <hr>
-        
+        <div style="background:inherit">
+            {{question.Question_discription}}
+        </div>
         </div>
         <div class="discussion" style="color:#0D1321;width: 45%; height: 80%; background-color: rgb(0,142, 146);; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; padding: 20px; font-family: Arial, sans-serif; overflow-y: auto; border-radius: 10px;">
             Collaborate
             <hr>
+            <div style="background:inherit">
+                {% lorem 3 b random %}
+            </div>
         </div>
+    
     </div>
 </div>
 

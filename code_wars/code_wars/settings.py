@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-pb&h%q_fkb#@-u%-n&vil^x*q0w)=7+u3fbo)-oe2e471r-0-(
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+#it should be added by ourself in settings.py when we use Abstract user
+AUTH_USER_MODEL = 'main.User'
 
 # Application definition
 
@@ -69,7 +70,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'code_wars.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

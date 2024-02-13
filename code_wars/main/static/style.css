@@ -3,12 +3,15 @@
 }
 #head
 {
+    
     display:inline;
     align-self: flex-end;
-    color:white;
     font-family: 'Knewave';
     font-size:  350%;
     padding-top: 1.5%;
+    background: linear-gradient(90deg , rgb(4, 176, 234),rgb(209, 109, 109));
+    background-clip:text ;
+    color :transparent;
 }
 .dot {
     height: 25px;
@@ -114,4 +117,22 @@ button{
 .bod{
     display: flex;
 
+}
+.discussion:hover{animation: pulse 2s 1;}
+.description:hover{animation: slideIn 2s 1;}
+@keyframes pulse {
+    0%,100%{transform:scale(1);}
+    50%{transform: scale(0.8);}
+    
+}
+@keyframes slideIn {
+    0%{transform: translateX(0%);}
+    100%{transform: translateY(0%);}
+    50%{transform: translateY(-10%);}
+    
+}
+span{
+    background: linear-gradient(180deg ,rgb(117, 117, 198) , rgb(220, 140, 140));
+    background-clip: text;
+    color: transparent;
 }

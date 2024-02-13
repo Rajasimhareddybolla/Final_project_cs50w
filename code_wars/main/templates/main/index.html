@@ -7,63 +7,60 @@ code-colab-hub
 <span><kbd class="bg-alert">Problems of this day</kbd></span>
 
 <div class="Problems_continer continer" style="padding-top:1%;width:90%;margin:auto">
-  <table class="table table-striped  table-dark table-hover" >
-  <thead>
-    <tr >
-      <th scope="col">#</th>
-      <div class="vr bg-">
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>    
-  </tbody>
-</table>
+  <nav aria-label="Page navigation example" style="color:white">
+    <ul class="pagination justify-content-end">
+      {% if page_obj.has_previous %}
+          <li class="page-item ">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+          <li>
+              <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">1</a>
+
+          </li>
+    {%endif%}
+      <span class="current" style="align-content:center">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+      {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next_page</a></li>
+          <li class="page-item"><a class="page-link"href="?page={{ page_obj.paginator.num_pages }}">last</a></li>
+      {%endif%}
+  </ul>
+  </nav>  
+            <table class="table table-striped table-dark table-hover">
+                <thead class="">
+                  <tr>
+                    <th scope="col">id</th>
+                    <th  colspan="3">Title</th>
+                    <th>Difficulty</th>
+                    <th>Acceptance</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for question in questions%}
+                    <tr>
+                      <th scope="row">1</th>
+                      <td colspan="3">
+                      <form action="code" method="post">
+                          <input type="text" value = {{question.pk}} hidden name="id">
+                          {% csrf_token %}
+                          <input type="submit" value={{question.Question_title}}>
+                        </a>
+                      </td>
+                      {%for degree in question.stats_question.all%}
+                      <td>
+                        {{degree.Difficulty}}
+
+                      </td>
+                      <td>
+                        {{degree.Acceptance}}
+                      </td>
+                      {%endfor%}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
 </div>
   <div class="message_block">
       <span><p class="Message_title" >messages for the unit section </p></span>
@@ -92,7 +89,6 @@ code-colab-hub
         </div>
       </div>
     </div>
-
 </div> 
 
 
