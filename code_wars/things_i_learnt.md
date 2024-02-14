@@ -115,3 +115,14 @@ to convert a '[{"raja":"name"}]' which is in string to a list then use JSON.pars
 404 error ==> not found
 403 error ==> found you are authinicated but not allowed to do that
 401 error ==> not authinicated
+
+
+while running js on multiple files it may cause some error like some thing not found like that then i strongly recomende you to 
+do this with following set of conditions
+ const div = document.getElement(".form")
+ if (div){
+    div.addEventListener("click")
+    ....execution part 
+ }
+ otherwise if you use like this
+ document.getElement(".form").addEventListner ==> it stop at that poing and wont  let you to do the remining ones
