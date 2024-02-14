@@ -6,7 +6,7 @@ no = {i*10:i*10 for i in range(0,11)}
 reactions = (("love","❤️"),( "smile","😂"),("Robot", "🦾"),( "skull","💀"), ("celebrate","🥳"),("bat" ,"🏏"))
 class User(AbstractUser, models.Model):
     # score = models.IntegerField(default=0, choices=no)
-    following = models.ManyToManyField("self", symmetrical=False, related_name="follwers",blank=True)
+    connections = models.ManyToManyField("self",  related_name="follwers",blank=True)
     image = models.TextField(default ="https://images.unsplash.com/photo-1533228876829-65c94e7b5025?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZnJlZSUyMGxpZmV8ZW58MHx8MHx8fDA%3D")
 class Questions(models.Model):
     Question_title = models.CharField(max_length = 65)
@@ -45,10 +45,10 @@ class Stats(models.Model):
 class Groups(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name = "group_owned")
     group_members = models.ManyToManyField(User,related_name="group_name")
+    group_title =  models.CharField(max_length = 64)
     group_discription = models.TextField()
     rules = models.CharField(max_length=255)
     Questions = models.ManyToManyField(User,through="group_question",related_name="Group_name")
-
 class group_question(models.Model): #this is for group discussion or answers or likes like that
     Group = models.ForeignKey(Groups,on_delete=models.CASCADE)
     member = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -64,9 +64,10 @@ class Chats(models.Model):
     Reaction = models.TextField(choices = reactions,blank = True)
 
 class Group_chat(models.Model):
-    sender = models.ForeignKey(User,on_delete=models.CASCADE,related_name = "sender_chat")
-    group = models.ForeignKey(Groups,on_delete=models.CASCADE,related_name = "group_chat")
-    message = models.CharField(max_length=255)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name = "sender_chat")
+    reciver = models.ForeignKey(Groups,on_delete=models.CASCADE,related_name = "group_chat")
+    messages = models.CharField(max_length=255)
+    time = models.DateTimeField(auto_now_add=True)
     Reaction = models.TextField(choices = reactions)
 class session_active(models.Model):
     user = models.ForeignKey(User, related_name="active_sessions",on_delete= models.CASCADE)
@@ -77,4 +78,3 @@ class session_active(models.Model):
             return True
         self.delete()
         return False
-        

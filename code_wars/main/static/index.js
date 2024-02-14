@@ -180,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     const card = document.querySelector("#carddee");
     if (card){
+
         function showcard (element){
             const head = element.textContent.trim()
             card.querySelector("h5").innerHTML = head;
@@ -196,11 +197,15 @@ document.addEventListener("DOMContentLoaded", function(){
             element.parentNode.removeChild(element);
         });
     }
-    function msg_manneager(element){
-        console.log(element.innerHTML);
-        console.log(element.dataset.id);
+    function msg_manneager(element,group=false){
         const reciver_id =element.dataset.id;
-        fetch('messages',{
+        if (group){
+            url = "messages_group"
+        }
+        else{
+             url = "messages"
+        }
+        fetch(url,{
             method : "POST",
             headers:{
                 'Content-type':'application/json'
@@ -212,6 +217,7 @@ document.addEventListener("DOMContentLoaded", function(){
             .then(response=>{
                 console.log(typeof(JSON.parse(response)));
                 remove(".raja");
+                remove(".gajala");
                 for (msg of JSON.parse(response)){
                     document.querySelector("#messageInput").setAttribute('data-id' , element.dataset.id);
                     document.querySelector("#card-title3").innerHTML=element.innerHTML;
@@ -228,11 +234,23 @@ document.addEventListener("DOMContentLoaded", function(){
                     span2.className = "time";
                     span.innerHTML =msg.fields.messages;
                     const time =  msg.fields.time.slice(11,16);
+                    const div2 = document.createElement("div");
+                    div2.className = "time_name";
                     span2.innerHTML= time;
+                    
                     console.log(msg);
                     tmp.className="list-group-item";
+                    if (group & !(msg.fields.user == reciver_id)){
+                        const spanee = document.createElement("span");
+                        spanee.innerHTML = msg.fields.user;
+                        spanee.style.fontSize = "70%";
+                        spanee.style.paddingTop = "10px";
+                        spanee.style.paddingRight = "10px";
+                        div2.appendChild(spanee);
+                    }
+                    div2.appendChild(span2)
                     tmp.appendChild(span)
-                    tmp.appendChild(span2)
+                    tmp.appendChild(div2)
                     div.appendChild(tmp)
                     document.querySelector("#ul_friends").appendChild(div);
                 }
@@ -251,6 +269,22 @@ document.addEventListener("DOMContentLoaded", function(){
             element.addEventListener("click", (event) => {
                 event.stopPropagation();
                 msg_manneager(element);
+            });
+        }
+    }
+    const groups = document.getElementsByClassName("friends_group")
+    if (groups){
+        for (const group of groups){
+            // to be implemented
+            // group.querySelector("img").addEventListener("mouseover" , ()=>{
+            //     showcard(group);
+            // });
+            // group.querySelector("img").addEventListener("mouseout" , ()=>{
+            //     card.style.display = "none";
+            // });
+            group.addEventListener("click", (event) => {
+                event.stopPropagation();
+                msg_manneager(group,true);
             });
         }
     }

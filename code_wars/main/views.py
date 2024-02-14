@@ -9,39 +9,13 @@ from django.core import serializers # can able to convert a object like django m
 from django import forms
 import os
 from . import admin
-from .models import User,session_active,Questions,Chats,Stats
+from .models import User,session_active,Questions,Chats,Stats,Groups,Group_chat
 from django.shortcuts import redirect
 from  django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 #defining a form 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-def handle_uploaded_file(f, user, title):
-    # Get the file extension
-    extension = os.path.splitext(f.name)[1]
-    user = "uploads/"+user
-    # Create the directory if it doesn't exist
-    os.makedirs(os.path.join(BASE_DIR, user), exist_ok=True)
 
-    # Construct the full file path
-    file_path = os.path.join(BASE_DIR, user, f"{title}{extension}")
-
-    # Write the file
-    with open(file_path, 'wb') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-class Upload_file(forms.Form):
-    file = forms.FileField()
-def test(request):
-    if request.method == "POST":
-        form = Upload_file(request.POST,request.FILES)
-        if form.is_valid():
-            title = request.POST["title"]
-            handle_uploaded_file(request.FILES["file"],request.user.username,title)  
-            return redirect("index")
-    else:
-        form = Upload_file()
-    return render(request,"main/test.html",{"form":form})
 def Login(request):
     if request.method == "POST":
         name = request.POST["username"]
@@ -81,19 +55,19 @@ def register(request):
                 "message": "Username already taken."
             })
         login( request,user)
-        new = session_active(user = request.user)
-        new.save()
         return redirect("index")
     else:
         return render(request, "main/login.html")
 def index(request):
     if request.user.is_authenticated:
         questions = Questions.objects.all()
+        question = questions.order_by('-date')
+        question = question[:8]
         # paginator = Paginator(questions,10)
         # page_num = request.GET.get('page')
         # page_obj = paginator.get_page(page_num)
         return render(request,"main/index.html",{
-            'questions':questions
+            'questions':question
         }) 
     return redirect("login")
 def prb(request):
@@ -105,14 +79,44 @@ def prb(request):
 def frnds(request):
     if request.user.is_authenticated:
         user =User.objects.get(pk = request.user.pk)
-        follwers = user.follwers.all()
-        return render(request,"main/friends_con.html",{"followers":follwers})
+        follwers = user.connections.all()
+        groups = user.group_name.all()
+        return render(request,"main/friends_con.html",{"followers":follwers,"groups":groups})
     return redirect("login")
-def codespace(request,id):
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def handle_uploaded_file(f, user, title):
+    # Get the file extension
+    extension = os.path.splitext(f.name)[1]
+    user = "uploads/"+user
+    # Create the directory if it doesn't exist
+    os.makedirs(os.path.join(BASE_DIR, user), exist_ok=True)
+
+    # Construct the full file path
+    file_path = os.path.join(BASE_DIR, user, f"{title}{extension}")
+
+    # Write the file
+    with open(file_path, 'wb') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+class Upload_file(forms.Form):
+    file = forms.FileField()
+
+def codespace(request,id=1):
     if request.user.is_authenticated:
         question = Questions.objects.get(id = id)
+        if request.method == "POST":
+            title = request.POST["title"]
+            print("i am uploading"+title)
+            form = Upload_file(request.POST,request.FILES)
+            if form.is_valid():
+                handle_uploaded_file(request.FILES["file"],request.user.username,title)  
+                return redirect("index")
+            else:
+                print(form.errors)
+        form = Upload_file()
         return render(request,"main/codespace.html",{
             'question':question
+            ,"form":form
         })
     return redirect("login")
 
@@ -153,8 +157,13 @@ def update_stats(request):
         acceptance = int(response["acceptance"])
         tricky = int(response["tricky"])
         question = Questions(id= id )
-        stats = Stats.objects.get(Question= question)
-        stats_no = stats.no+1
+        try:
+            stats = Stats.objects.get(Question= question)
+            stats_no = stats.no+1
+        except :
+            stats = Stats(Question = question,Difficulty=0,Acceptance=0,Tricky=0,no=0)
+            stats_no =1
+        
         difficulty_up = (stats.Difficulty+difficulty)/(stats_no)
         acceptance_up = (stats.Acceptance+acceptance)/(stats_no)
         tricky_up = (stats.Tricky+tricky)/(stats_no)
@@ -165,4 +174,24 @@ def update_stats(request):
         stats.save()
         return JsonResponse({"message":"sucess"},safe=False)
     
-        
+def profile(request,id="raja"):
+    if (id=="raja"):
+        user = User.objects.get(id = request.user.id)        
+    else:
+        user = User.objects.get(id = id)
+    data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count()}
+    return render(request,"main/profile.html",{
+        'user':data_set
+    })
+@csrf_exempt
+def messages_group(request):
+    id =json.loads(request.body)
+    print(id)
+    id = id["reciver"]
+    group = Groups.objects.get(id = id)
+    messages = group.group_chat.all()
+    print("i am ")
+    messages = messages.order_by("time")
+    js = serializers.serialize('json',messages)
+    
+    return JsonResponse(js,safe=False)

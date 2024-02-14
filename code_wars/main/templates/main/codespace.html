@@ -37,9 +37,17 @@
         <div style="color : wheat;display:flex;justify-content:space-around">
             <div style="margin:30px" class="text-primary " id="heading_title"> {{question.Question_title}}</div>
             <div style="display:flex;justify-content:space-between">
-            <div class="h6" style="margin:30px;">Upload the Solution hear</span>
-            <input type="file" style="margin-left:8px;">
-            </div>
+            <div class="h6" style="margin:30px;">
+                <span>
+                <form action="{% url 'code' %}" method="POST" enctype="multipart/form-data" style="display:flex;color:white;align-items:flex-start">
+
+                    {% csrf_token %}
+                    <input name="title" type="text" value="{{ question.Question_title }}" hidden>
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary btn-sm" style="padding:0 4px 0 4px;margin:0">Small</button>
+                </form>
+                </span>
+                </div>
 
         </div>
     </div>
