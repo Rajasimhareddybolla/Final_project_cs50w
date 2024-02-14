@@ -111,3 +111,7 @@ def question(request):
 
 
 to convert a '[{"raja":"name"}]' which is in string to a list then use JSON.parse(string) return list
+
+404 error ==> not found
+403 error ==> found you are authinicated but not allowed to do that
+401 error ==> not authinicated

@@ -8,8 +8,9 @@
       <div class="card" style="width: 40%; color: black;">
         <div class="card-body">
           <div class="form-group">
-            <div style="display:flex">
-              <input class="form-control input-sm" style="height:40%;background:#E5E5CB;color :black" id="inputsm" type="text" placeholder="Search">
+            <div style="display:flex;justify-content:space-between" >
+              <span style="color:white;padding:10px"> Messages</span>
+              <span style="color:white;padding:10px">Requests    👥</span>
             </div>
           </div>
 
@@ -17,21 +18,36 @@
           <div>
           {%for follower in  followers %}
           <div id ="#chat">
-            <div class = "friends" style="width:inherit;padding:5px;" data-id = {{follower.id}}>{{follower.username}}</div>
+            <div class = "friends" style="width:inherit;padding:5px;opacity: 70%;" data-id = {{follower.id}}>
+              <span style="padding:11px"><img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark" ></span>
+              {{follower.username}}
+
+            </div>
           </div>
           {%endfor%}
         </div>
         </div >
-
+        <div class="card" id="carddee" style="width: 18rem;display:absolute;z-index=0 ;display:none;margin-left:10px">
+          <img class="card-img-top" src="https://github.com/mdo.png" alt="Card image cap" >
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+        </div>
         </div>
       </div>
-      <div class="card" style="width: 55%; color: black;">
+      <div class="card" style="width: 55%; color: black;height:92%;text-align:center;margin-top:20px">
       <div id = "msg-section-for"style="height: 200vh;">
-        <img src="..." class="card-img-top" alt="...">
         <div class="card-body">
-        <h3  id="card-title3">Card title</h5>
-        <div class="card" style="width: inherit;background:inherit;height:80%">
-          <ul class="list-group list-group-flush" id="ul_friends">
+          <div id="hype" class="hype bg-dark" style="display:flex;justify-content:space-around;">
+          <div  class="bg-dark"id = "friedns_title" style="opacity:70%;border-radius:7px">
+                  <h3  id="card-title3">Card title</h5>
+            </div>
+          
+            <div></div>
+          </div>
+        <div class="card" style="width: inherit;background:inherit;height:80%;z-index:0">
+          <ul class="list-group list-group-flush" style="z-index:0" id="ul_friends">
             <div class="raja">
             <li class="list-group-item"  style="display:flex;justify-content:space-around"><span>A third item</span ><span class="date">2024-02-12T14:25:18.765Z</span></li>
             </div>
@@ -43,14 +59,6 @@
     </div>
     <div style="position:relative;display:flex;width:100%;flex-direction:row">
         <textarea id="messageInput"style="width:80%;margin-left:20px" data-id = 900 class="form-control" rows="1" cols="70" placeholder="Type your message here..." ></textarea>
-    </div>
 
-      <div style="height: 100vh;">
-        <hr style="color:white ">
-        <h5 class="card-title">Card title</h5>
-        <p  class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-      </div>
     </div>
 {%endblock%}

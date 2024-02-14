@@ -9,7 +9,7 @@ from django.core import serializers # can able to convert a object like django m
 from django import forms
 import os
 from . import admin
-from .models import User,session_active,Questions,Chats
+from .models import User,session_active,Questions,Chats,Stats
 from django.shortcuts import redirect
 from  django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
@@ -117,8 +117,7 @@ def codespace(request,id):
     return redirect("login")
 
 def Logout(request):
-    ses = session_active.objects.get(user = request.user)
-    ses.delete()
+
     logout(request)
     return redirect('login')
 @csrf_exempt
@@ -127,8 +126,11 @@ def messages(request):
     print(id)
     id = id["reciver"]
     reciver = User.objects.get(id = id)
-    messages = Chats.objects.filter(Q(user = request.user) |  Q(user=reciver) )
+    messages = Chats.objects.filter(Q(Q(user = request.user) &  Q(reciver=reciver)) | Q(Q(user = reciver) &  Q(reciver=request.user) ))
+    print("i am ")
+    messages = messages.order_by("time")
     js = serializers.serialize('json',messages)
+    
     return JsonResponse(js,safe=False)
 @csrf_exempt
 def send(request):
@@ -142,3 +144,25 @@ def send(request):
         chat.save()
         return JsonResponse({"message":"sucess"})
     return redirect("index")
+@csrf_exempt
+def update_stats(request):
+    if request.method == "POST":
+        response = json.loads(request.body)
+        id = int(response["id"])
+        difficulty = int(response["difficulty"])
+        acceptance = int(response["acceptance"])
+        tricky = int(response["tricky"])
+        question = Questions(id= id )
+        stats = Stats.objects.get(Question= question)
+        stats_no = stats.no+1
+        difficulty_up = (stats.Difficulty+difficulty)/(stats_no)
+        acceptance_up = (stats.Acceptance+acceptance)/(stats_no)
+        tricky_up = (stats.Tricky+tricky)/(stats_no)
+        stats.Acceptance = acceptance_up
+        stats.Difficulty = difficulty_up
+        stats.Tricky = tricky_up
+        stats.no = stats_no
+        stats.save()
+        return JsonResponse({"message":"sucess"},safe=False)
+    
+        

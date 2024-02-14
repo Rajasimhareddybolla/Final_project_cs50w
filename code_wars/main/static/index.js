@@ -1,6 +1,55 @@
+
+
 colors = ["primary","secondary","success","info","warning","danger","light","dark"]
 
 document.addEventListener("DOMContentLoaded", function(){
+    //modifications
+    document.querySelector("#open_discussion").addEventListener("click",()=>{
+        const div = document.querySelector(".discussion");
+        if (div.style.display == "none"){
+            div.style.display="flex";
+        }
+        else{
+            div.style.display="none";
+        }
+
+    });
+    const form =  document.querySelector("#form_submit") ;
+    form.addEventListener("click",(e)=>{
+        e.preventDefault();
+        const Difficulty = document.querySelector("#Difficulty_level");
+        const Acceptance =document.querySelector("#Acceptance_level");
+        const Tricky = document.querySelector("#Tricky_level");
+        const id = document.querySelector("#question_id");
+
+        console.log(Difficulty);
+        console.log(Acceptance);
+        console.log(Tricky);
+        console.log(id);
+        fetch("/update_stats",{
+            method:"POST",
+            body:JSON.stringify({"id":id.value,"difficulty":Difficulty.value,"acceptance":Acceptance.value,"tricky":Tricky.value})
+        })
+        .catch(e=>{
+            console.log(e);
+        })
+        .then(response=>response.json)
+        .then(result=>{
+            console.log(result);
+            document.querySelector("#review").style.display = "none";
+        })
+       
+    });
+    const card = document.querySelector("#carddee");
+    function showcard (element){
+            const head = element.textContent.trim()
+            card.querySelector("h5").innerHTML = head;
+            card.querySelector("p").innerHTML="i am working ";
+            card.style.display = "flex";                
+    }
+
+    //showing card over when hover on a pic
+
     function remove(class_name){
         document.querySelectorAll(class_name).forEach((element)=>{
             element.parentNode.removeChild(element);
@@ -45,7 +94,12 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const elements = document.getElementsByClassName("friends");
     for (const element of elements) {
-
+        element.querySelector("img").addEventListener("mouseover" , ()=>{
+            showcard(element);
+        });
+        element.querySelector("img").addEventListener("mouseout" , ()=>{
+            card.style.display = "none";
+        });
         element.addEventListener("click", () => {
            msg_manneager(element);
         });
@@ -69,18 +123,5 @@ document.addEventListener("DOMContentLoaded", function(){
 
         }
     });
-       
-
-    document.querySelector("#dot").onclick = function(){
-        document.querySelector("#nav").style.transition = "filter 1.0s";
-        document.querySelector(".section-1").style.transition = "filter 1.5s";
-        document.querySelector("#main").style.transition = "filter 2s";
-        document.querySelector("#nav").style.filter = "blur(5px)";
-        document.querySelector(".section-1").style.filter = "blur(5px)";
-        document.querySelector("#main").style.filter = "blur(5px)";
-        document.querySelector("#sidebar").style.display="flex";
-        document.querySelector("#sidebar").style.position="fixed";
-        document.querySelector("#sidebar").style.zIndex=1;
-    };
 
 });

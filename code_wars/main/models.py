@@ -30,7 +30,6 @@ class Tags(models.Model):
 class Solved_ques(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name = "ques_solved")
-
     Questions = models.ForeignKey(Questions, on_delete=models.CASCADE,related_name ="solved_by")
     timestamp = models.DateTimeField(auto_now=True)
     note = models.TextField()
@@ -41,6 +40,7 @@ class Stats(models.Model):
     Difficulty = models.IntegerField(choices=no)
     Acceptance = models.IntegerField(choices=no)
     Tricky = models.IntegerField(choices=no)
+    no = models.IntegerField(null = True)
 
 class Groups(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name = "group_owned")

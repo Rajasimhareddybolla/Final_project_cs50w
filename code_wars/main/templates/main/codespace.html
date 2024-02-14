@@ -71,16 +71,62 @@
             <kbd>{% for tag in question.tags_for_question.all%}
                 {{tag.tags_frameworks}}    
             {%endfor%}
+
         </kbd>
+        <hr>
+        <kbd id ="open_discussion">Discussion Form </kbd>
+
         </div>
         </div>
-        <div class="discussion" style="color:#0D1321;width: 45%; height: 80%; background-color: rgb(0,142, 146);; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; padding: 20px; font-family: Arial, sans-serif; overflow-y: auto; border-radius: 10px;">
+        
+        <div id="review" >
+            <form id="review_form" >
+                <input type="text" value={{question.id}} hidden id="question_id">
+                <div>
+                    <label class="form-label">Difficulty :</label>
+                    <input type="range" class="customRange1" id ="Difficulty_level" min="0" max="100">
+                </div>
+                <div>
+                    <label  class="form-label">Acceptance :</label>
+                    <input type="range"  class="customRange1" id ="Acceptance_level" min="0" max="100"> 
+                </div>
+                <div>
+                    <label  class="form-label">Tricky :</label>
+                    <input type="range"  class="customRange1" id="Tricky_level" min="0" max="100">
+                </div>
+                <button type="button" id="form_submit" class="btn btn-primary btn-sm">Submit</button>
+
+            </form>
+        </div>
+        <div class="discussion" style="color:#0D1321;width: 45%; height: 80%; background-color: rgb(0,142, 146); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; padding: 20px; font-family: Arial, sans-serif; overflow-y: auto; border-radius: 10px;display:none">
             Collaborate
             <hr>
-            <div style="background:inherit">
-                {% lorem 2 b random %}
-            </div>
-        </div>
+            <div id="carouselExampleIndicators" style="background:transparent" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators" style="background:transparent;position:sticky;">
+                  <button type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner " style="background:transparent">
+                  <div class="carousel-item active" style="background:transparent">
+                    <div style="background:transparent">{% lorem 1 b random %}</div>
+                </div>
+                  <div class="carousel-item" style="background:transparent">
+                    <div style="background:transparent">{% lorem 1 b random %}</div>
+                  </div>
+                  <div class="carousel-item" style="background:transparent">
+                    <div style="background:transparent">{% lorem 1 b random %}</div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
     
     </div>
 </div>
