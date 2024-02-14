@@ -1,0 +1,85 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="{% static 'profile.css'%}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <a href="/"><img src="https://github.com/mdo.png" alt="Profile Picture"></a>
+            <h1>{{user.username}}</h1>
+            <p>Software Engineer</p>
+        </div>
+        <div class="profile-stats">
+            <div>
+                <h2>{{user.q_no}}</h2>
+                <p>Problems Solved</p>
+            </div>
+            <div>
+                <h2>{{user.connections}}</h2>
+                <p>Connections</p>
+            </div>
+            <div>
+                <h2>300</h2>
+                <p>Contributions</p>
+            </div>
+        </div>
+        <div class="prev-questions">
+            <h2>Previous Questions</h2>
+            <ul class="question-list">
+                {%for ques in user.problems_solved%}
+                <li><a href="{% url 'code' id=ques.Questions.id%}">{{ques.Questions.Question_title}}</a></li>
+                {%endfor%}
+            </ul>
+        </div>
+        <div class="consistency">
+            <h2>Consistency Throughout the Year</h2>
+            <div class="consistency-chart">
+                <div class="consistency-chart-bar" style="width: 10%;"></div><!-- Example: Width represents consistency percentage for each month -->
+                <div class="consistency-chart-bar" style="width: 20%;"></div>
+                <div class="consistency-chart-bar" style="width: 30%;"></div>
+                <!-- Add more bars for each month -->
+            </div>
+        </div>
+        <div class="recent-activity">
+            <h2>Recent Activity</h2>
+            <ul class="activity-feed">
+                <li><span>Today:</span> Solved problem "Two Sum"</li>
+                <li><span>Yesterday:</span> Updated profile picture</li>
+                <!-- Add more activities -->
+            </ul>
+        </div>
+        <div class="achievements">
+            <h2>Achievements</h2>
+            <ul class="badge-list">
+                <li><div class="badge">1</div></li>
+                <li><div class="badge">2</div></li>
+                <li><div class="badge">3</div></li>
+                <!-- Add more badges -->
+            </ul>
+        </div>
+        <div class="profile-settings">
+            <h2>Profile Settings</h2>
+            <form class="profile-settings-form">
+                <input type="text" placeholder="Full Name">
+                <input type="text" placeholder="Email">
+                <textarea placeholder="Bio"></textarea>
+                <input type="file" accept="image/*">
+                <select>
+                    <option value="dark">Dark Theme</option>
+                    <option value="light">Light Theme</option>
+                </select>
+                <input type="submit" value="Save Changes">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+ 
