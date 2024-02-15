@@ -48,6 +48,7 @@ class Groups(models.Model):
     group_title =  models.CharField(max_length = 64)
     group_discription = models.TextField()
     rules = models.CharField(max_length=255)
+    image = models.TextField()
     Questions = models.ManyToManyField(User,through="group_question",related_name="Group_name")
 class group_question(models.Model): #this is for group discussion or answers or likes like that
     Group = models.ForeignKey(Groups,on_delete=models.CASCADE)

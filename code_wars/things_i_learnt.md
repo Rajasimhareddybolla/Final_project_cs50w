@@ -126,3 +126,15 @@ do this with following set of conditions
  }
  otherwise if you use like this
  document.getElement(".form").addEventListner ==> it stop at that poing and wont  let you to do the remining ones
+
+
+
+ # to really load a url in the front end we have to use
+ ### window.location.href = "url" ###if you use / in first it is absolute url if you did not used then it is relative url
+
+
+ # to get the suggestions while typing we have to 
+ <input .... list="idforthelist">
+ <datalist id="idforthelist">
+    <option></option>
+ </datalist>

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <link rel="stylesheet" href="{% static 'profile.css'%}">
+    <script src="{% static 'index.js' %}"></script>
 </head>
 
 <body>
@@ -26,8 +27,12 @@
                 <p>Connections</p>
             </div>
             <div>
-                <h2>300</h2>
-                <p>Contributions</p>
+        
+            {% if user.is_connected %}
+                <button id ="dconnect_button" type="button" value="{{user.id}}" class="btn btn-primary" style="background:skyblue;border-radius:5px"> disconnect </button>
+            {% else %}
+                <button id ="connect_button" type="button" value="{{user.id}}" class="btn btn-primary" style="background:skyblue;border-radius:5px;"> connect </button>
+            {% endif %}
             </div>
         </div>
         <div class="prev-questions">
@@ -64,6 +69,7 @@
                 <!-- Add more badges -->
             </ul>
         </div>
+        {% if user.root  %}
         <div class="profile-settings">
             <h2>Profile Settings</h2>
             <form class="profile-settings-form">
@@ -78,6 +84,7 @@
                 <input type="submit" value="Save Changes">
             </form>
         </div>
+        {% endif %}
     </div>
 </body>
 

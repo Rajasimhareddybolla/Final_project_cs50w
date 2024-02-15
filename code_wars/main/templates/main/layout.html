@@ -86,15 +86,32 @@
             </ul>
             <div style="display:flex;position:sticky;top:0;z-index:1" id="searchnav" >
               <form class="form-inline my-2 my-lg-1" style="display:flex;position:sticky;top:0;z-index:1">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  id ="navsearchbar"list="AutoSugestionslist">
+                <datalist id = "AutoSugestionslist">
+                  <option value="Objective C">Objective C</option>
+
+                </datalist>
                 <div class="vr bg-white "></div>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button id="search_submit" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
           </div>
         </div>
         </nav>
+        <div class="card" id="caddee" style="width: 18rem;display:absolute;z-index=5;position:absolute ;display:none;  bottom: 8px;right: 16px;">
+          <a class="a_img"><img class="card-img-top" id="img_for_preview" src="https://github.com/mdo.png" alt="Card image cap" ></a></a>
+          <div>
+            <button class="btn btn-sm btn-black" id="close_preview_buttons" type="button" style="color:black"> <code>close 🕹️<code></button>
+            <kbd></kbd>
+          </div>
+          <div class="d-grid gap-2 d-md-block" >
+              <button class="btn btn-sm btn-primary" id="alter_connections_button" type="button">Button</button>
+              <kbd>Connections: <code id="Connections" style="margin-left:7px">4</code></kbd>
+          </div>
+        </div>
+        </div>
             <div id="main">
+              
                 {%block main%}{%endblock%}
             </div>
         </body>

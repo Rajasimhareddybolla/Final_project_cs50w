@@ -315,4 +315,8 @@ a:hover{
 }
 .time_name{
     display: flex;
+
+}
+#close_preview_buttons:hover{
+    color: wheat;
 }

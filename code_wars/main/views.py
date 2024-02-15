@@ -13,6 +13,7 @@ from .models import User,session_active,Questions,Chats,Stats,Groups,Group_chat
 from django.shortcuts import redirect
 from  django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
+import random
 # Create your views here.
 #defining a form 
 
@@ -67,7 +68,7 @@ def index(request):
         # page_num = request.GET.get('page')
         # page_obj = paginator.get_page(page_num)
         return render(request,"main/index.html",{
-            'questions':question
+            'questions':question,
         }) 
     return redirect("login")
 def prb(request):
@@ -176,13 +177,25 @@ def update_stats(request):
     
 def profile(request,id="raja"):
     if (id=="raja"):
-        user = User.objects.get(id = request.user.id)        
+        user = User.objects.get(id = request.user.id)   
+        data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),"root": True}
+   
+        return render(request,"main/profile.html",{
+            'user':data_set,
+    })     
     else:
         user = User.objects.get(id = id)
-    data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count()}
+        if request.user in user.connections.all():
+            connected = True
+        else:
+            connected = False
+        print(connected)
+    data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),'is_connected': connected,"id":id}
     return render(request,"main/profile.html",{
-        'user':data_set
+        'user':data_set,
+        
     })
+
 @csrf_exempt
 def messages_group(request):
     id =json.loads(request.body)
@@ -195,3 +208,86 @@ def messages_group(request):
     js = serializers.serialize('json',messages)
     
     return JsonResponse(js,safe=False)
+@csrf_exempt
+def find_data(request):
+    response = json.loads(request.body)
+    response = response["type"]
+    responde = []
+    if response == "users":
+        data = User.objects.all().values_list("username","id",flat=False)
+    elif response == "Questions":
+        data = Questions.objects.all().values_list("Question_title","id",flat=False)
+    else:
+        data = Groups.objects.all().values_list("group_title","id")
+    for chunk in data:
+        responde.append((chunk[1], chunk[0]))
+    print(responde)
+    return JsonResponse(responde,safe=False)
+@csrf_exempt
+def connect(request):
+    if request.method == "POST":
+        print("hello")
+        response = json.loads(request.body)
+        type = response["type"]
+        print(response)
+        user = User.objects.get(id = request.user.id)
+        person = User.objects.get(id = int(response["id"]))
+        if type == "u":
+            user.connections.remove(person)
+        elif type == "f":
+            user.connections.add(person)
+        return redirect("index")
+    print("error")
+@csrf_exempt
+def preview(request):
+    response = json.loads(request.body)
+    type = response["type"]
+    id = response["id"]
+    id = id[-1]
+    result={}
+    if type == "Group":
+        print(response)
+        group = Groups.objects.get(id = id)
+        result["img"] = group.image
+        if request.user in group.group_members.all():
+            result["connect"] = True
+        else:
+            result["connect"]= False
+        result["members"] =  group.group_members.all().count()
+    if type == "Friend":
+        userr = User.objects.get(id = id)
+        result["img"]  = userr.image
+        if request.user in userr.connections.all():
+            result["connect"] = True
+        else:
+            result["connect"] = False
+        result["members"] = userr.connections.all().count()
+    if type == "Question":
+        ques = Questions.objects.get(id = id)
+        ques["discription"] = Questions.objects.get(id = id)
+        result['name'] = ques.Question_title
+        result["dis"] = ques.Question_discription
+        result['solved'] = ques.solved_by.all().count()
+    return JsonResponse(result,safe=False)
+@csrf_exempt
+def alter_connections(request):
+     if request.method == "POST":
+        response = json.loads(request.body)
+        type = response["type"]
+        id = response["id"]
+        state = response["state"]
+        print(response)
+        user = User.objects.get(id = request.user.id)
+        if type == "Friend":
+            person = User.objects.get(id = int(response["id"]))
+            if state == "u":
+                user.connections.remove(person)
+            elif state == "f":
+                user.connections.add(person)
+        if type == "group":
+            group = Groups.objects.get(id = id)
+            if state == "u":
+                group.group_members.remove(user)
+            elif state == "f":
+                group.group_members.add(user)
+        return JsonResponse("hurray",safe=False)
