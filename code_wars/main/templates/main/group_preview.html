@@ -1,0 +1,73 @@
+{% extends 'main/layout.html' %}
+{%load static%}
+{% block main %}
+<div class="container mt-5" style="background:inherit">
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ group.image }}" class="card-img img-fluid rounded-circle p-4" alt="Group Image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                   <code> <h5 class="card-title">{{ group.group_title }}</h5></code>
+                    <p class="card-text">Group Description: {{ group.group_discription }}</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Admin: {{ group.owner }}</li>
+                        <li class="list-group-item">Followers: {{ group.group_members.count }}</li>
+                        <li class="list-group-item">Rules: {{ group.rules }}</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div >
+        <div class="scrollmenu" >
+            {% for member in members %}
+            <div class="col-md-3" style="padding:10px">
+                <div class="card mb-4 shadow-sm">
+                    <img class="bd-placeholder-img card-img-top" data-id ="{{member.id}}" width="100%" height="225" src="{{ member.image }}">
+                    <div class="card-body">
+                        <kbd><p class="card-text">{{ member.username }}</p></kbd>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <style>
+        *{
+            background:#3B3939;
+            margin:0px;
+            padding:0px;
+        }
+    .card:hover {
+        transform: scale(1.05);
+        transition: transform .2s;
+    }
+    div.scrollmenu {
+        display:flex;
+        flex-direction:row;
+        
+        background-color: inherit;
+        overflow: auto;
+        white-space: nowrap;
+      }
+      
+      div.scrollmenu a {
+        display: inline-block;
+        color: white;
+        text-align: center;
+       
+        text-decoration: none;
+      }
+      
+      div.scrollmenu a:hover {
+        background-color: #777;
+      }
+    </style>
+</div>
+<script src={%static 'index.js'%}>
+{%endblock%}

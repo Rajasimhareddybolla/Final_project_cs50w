@@ -135,6 +135,26 @@
 colors = ["primary","secondary","success","info","warning","danger","light","dark"]
 const data ={"@":"users","#":"Questions","$":"Group"};
 document.addEventListener("DOMContentLoaded", function(){
+    profilee =  document.querySelector(".scrollmenu");
+    if (profilee){
+        profilee.querySelectorAll("img").forEach((element)=>{
+            element.addEventListener("click",()=>{
+                id = element.dataset.id;
+                window.location.href = "/profile/"+id;
+            });
+
+        
+        });
+    }
+    const friends_group = document.querySelector(".friends_group");
+    if(friends_group){
+        friends_group.querySelectorAll("img").forEach((element)=>{
+            element.addEventListener("click",()=>{
+                id = element.dataset.id;
+                window.location.href = "/group/"+id;
+            });
+        });
+    }
     card = document.querySelector("#carddee");
     //modifications
     function remove_option(){
@@ -147,10 +167,14 @@ document.addEventListener("DOMContentLoaded", function(){
         opeen_dis.addEventListener("click",()=>{
             const div = document.querySelector(".discussion");
             if (div.style.display == "none"){
+                document.querySelector("#review_form").style.display = "none";
                 div.style.display="flex";
+                opeen_dis.innerHTML = "Close Discussion";
             }
             else{
+                document.querySelector("#review_form").style.display = "flex";
                 div.style.display="none"
+                opeen_dis.innerHTML = "Open Discussion";
             }
     
         });
@@ -188,7 +212,12 @@ document.addEventListener("DOMContentLoaded", function(){
     if (card){
 
         function showcard (element){
-            const head = element.textContent.trim()
+            const head = element.textContent.trim();
+            another_prewiew  = document.querySelector("#caddee");
+            if (another_prewiew){
+                another_prewiew.style.display = "none";
+            }
+            card.querySelector("img").src = element.querySelector("img").src;
             card.querySelector("h5").innerHTML = head;
             card.querySelector("p").innerHTML="i am working ";
             card.style.display = "flex";                
@@ -204,9 +233,18 @@ document.addEventListener("DOMContentLoaded", function(){
             // const data ={"@":"users","#":"Questions","$":"Group"};
             if (tpe=="users"){
                 const ele  = document.querySelector("#caddee");
+                is_in_friends = document.querySelector("#msg-section-for");
+                if (is_in_friends){
+                    ele.style.bottom ="16px";
+                    ele.style.right = "18px";
+                    ele.style.zIndex = "10";
+                }
+                else if(profilee){
+                        search.value = "disabled";
+                        return false;
+                }
                 ele.style.display = "flex";
                 ele.querySelector('kbd').innerHTML = search.value;
-                
                 fetch("/preview",{
                     method:'POST',
                     body:JSON.stringify({"id":search.value,"type":"Friend"})
@@ -220,12 +258,13 @@ document.addEventListener("DOMContentLoaded", function(){
                     document.querySelector("#alter_connections_button").setAttribute("d",search.value.charAt(search.value.length-1));
                     search.value = ""
                     if (result.connect){
-                        document.querySelector("#alter_connections_button").innerHTML = "Un Follow";
+                        document.querySelector("#alter_connections_button").innerHTML = "Exit";
                     }
                     else{
                         document.querySelector("#alter_connections_button").innerHTML = "Connect:";
                     }
-                });            }
+                });            
+            }
             else if (tpe == "Questions"){
                 window.location.href = "code/"+search.value.charAt(search.value.length-1);
             }
@@ -253,7 +292,10 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                 });
             }
-        });
+    return true
+        }
+    
+        );
         closer = document.querySelector("#close_preview_buttons");
         if (closer){
             closer.addEventListener("click",()=>{
@@ -267,7 +309,8 @@ document.addEventListener("DOMContentLoaded", function(){
             id = alter.getAttribute("d");
             if (alter.innerHTML=="Exit"){
                 state = "u";
-            }else{
+            }
+            else{
                 state = "f";
             }
             fetch("/alter_connections",{
@@ -322,10 +365,12 @@ document.addEventListener("DOMContentLoaded", function(){
     function msg_manneager(element,group=false){
         const reciver_id =element.dataset.id;
         if (group){
-            url = "messages_group"
+            url = "messages_group";
+            localStorage.setItem("type","group");
         }
         else{
              url = "messages"
+            localStorage.setItem("type","user");
         }
         fetch(url,{
             method : "POST",
@@ -441,7 +486,13 @@ document.addEventListener("DOMContentLoaded", function(){
             new_msg = msg_bar.value;
             msg_bar.value = "";
             msg_bar.style.placeholder = "enter your message";
-            fetch('msg_send',{
+            if(localStorage.getItem("type")=="group"){
+                url = "/msg_send_group";
+            }
+            else{
+                url = "/msg_send";
+            }
+            fetch(url,{
                 method:"POST",
                 body:JSON.stringify({"msg":new_msg,"id":msg_bar.getAttribute("data-id")})
                 }
@@ -453,6 +504,32 @@ document.addEventListener("DOMContentLoaded", function(){
 
         }
     });
+   }
+   time = document.querySelector("#time");
+   if(time){
+        function update_time(){
+            let now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
+        
+            // Add a zero in front of numbers<10
+            hours = checkTime(hours);
+            minutes = checkTime(minutes);
+            seconds = checkTime(seconds);
+        
+            time.textContent = hours + ":" + minutes + ":" + seconds;
+            
+            // Call the function every second to update the time
+            setTimeout(update_time, 1000);   
+        }
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+        update_time();
    }
 
 });

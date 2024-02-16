@@ -1,0 +1,33 @@
+{% extends 'main/layout.html'%}
+
+{% load static%}
+<style>
+    *{
+        background:white;
+        color: black;
+        border: 1px solid black;
+    }
+</style>
+{% block main %}
+<div class="container">
+    <h2 class="text-danger">Solved Questions</h2>
+    <div id="time" class="mb-3"></div>
+    <div class="row">
+        {% for question in questions %}
+        <div class="col-sm-4">
+            <div class="card mb-3 " style="background:white;">
+                <div class="card-body">
+                    <a href="code/{{question.id}}"><h5 class="card-title text-primary">{{ question.title }}</h5></a>
+                    <p class="card-text text-white">{{ question.note }}</p>
+                    <p class="card-text text-warning"><small>Solved on {{ question.time }}</small></p>
+                    <p class="card-text "><small> File path :<code>{{question.path}}</code></small></p>
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-secondary">No solved questions to display.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

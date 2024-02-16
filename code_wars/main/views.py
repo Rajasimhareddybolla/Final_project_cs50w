@@ -9,7 +9,7 @@ from django.core import serializers # can able to convert a object like django m
 from django import forms
 import os
 from . import admin
-from .models import User,session_active,Questions,Chats,Stats,Groups,Group_chat
+from .models import User,session_active,Questions,Chats,Stats,Groups,Group_chat,Tags,Solved_ques
 from django.shortcuts import redirect
 from  django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
@@ -102,22 +102,33 @@ def handle_uploaded_file(f, user, title):
 class Upload_file(forms.Form):
     file = forms.FileField()
 
-def codespace(request,id=1):
+def codespace(request,id=-1):
     if request.user.is_authenticated:
-        question = Questions.objects.get(id = id)
         if request.method == "POST":
             title = request.POST["title"]
+            question = Questions.objects.get(Question_title = title)
+            note = request.POST["note"]
             print("i am uploading"+title)
+            solved =Solved_ques(user = request.user,Questions = question,note = note ,path = f"uploads/{request.user.username}/{title}{os.path.splitext(request.FILES["file"].name)[1]}")
+            solved.save()
             form = Upload_file(request.POST,request.FILES)
             if form.is_valid():
                 handle_uploaded_file(request.FILES["file"],request.user.username,title)  
-                return redirect("index")
+                return redirect("index",{
+                    "name":request.user.username,
+                    "image":request.user.image
+                })
             else:
                 print(form.errors)
+        question = Questions.objects.get(id = id)
         form = Upload_file()
+        diss = Solved_ques.objects.filter(Questions = question)
+        diss = diss.values('note','path','timestamp')
+        print(diss)
         return render(request,"main/codespace.html",{
             'question':question
-            ,"form":form
+            ,"form":form,
+            'diss':diss
         })
     return redirect("login")
 
@@ -132,13 +143,28 @@ def messages(request):
     id = id["reciver"]
     reciver = User.objects.get(id = id)
     messages = Chats.objects.filter(Q(Q(user = request.user) &  Q(reciver=reciver)) | Q(Q(user = reciver) &  Q(reciver=request.user) ))
-    print("i am ")
+    if not messages:
+        message = Chats(user = request.user , reciver= reciver , messages =f"hai this is {request.user.username}" )
+        message.save()
+        messages = message
     messages = messages.order_by("time")
     js = serializers.serialize('json',messages)
     
     return JsonResponse(js,safe=False)
 @csrf_exempt
-def send(request):
+def send_msg_group(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data)
+        msg = data["msg"]
+        id = int(data["id"])
+        reciver = Groups.objects.get(id = id)
+        chat = Group_chat(user = request.user,reciver = reciver,messages = msg)
+        chat.save()
+        return JsonResponse({"message":"sucess"})
+    return redirect("index")
+@csrf_exempt
+def send_msg(request):
     if request.method == "POST":
         data = json.loads(request.body)
         print(data)
@@ -178,7 +204,7 @@ def update_stats(request):
 def profile(request,id="raja"):
     if (id=="raja"):
         user = User.objects.get(id = request.user.id)   
-        data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),"root": True}
+        data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),"root": True,"image":user.image}
    
         return render(request,"main/profile.html",{
             'user':data_set,
@@ -190,7 +216,7 @@ def profile(request,id="raja"):
         else:
             connected = False
         print(connected)
-    data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),'is_connected': connected,"id":id}
+    data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),'is_connected': connected,"id":id,"image":user.image}
     return render(request,"main/profile.html",{
         'user':data_set,
         
@@ -291,3 +317,57 @@ def alter_connections(request):
             elif state == "f":
                 group.group_members.add(user)
         return JsonResponse("hurray",safe=False)
+def new_prb(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        discription = request.POST["discription"]
+        input1 = request.POST["input1"]
+        output1 = request.POST["output1"]
+        input2 = request.POST["input2"]
+        output2 = request.POST["output2"]
+        Tricky = int(request.POST["Tricky"])
+        Acceptance =int(request.POST["Acceptance"])
+        Difficulty = int(request.POST["Difficulty"])
+        Framework = request.POST["Framework"]
+        Tecnology = request.POST["Tecnology"]
+        print(request.POST)
+        question = Questions(Question_title = title,Question_discription=discription,input1=input1,output1=output1,input2=input2,output2=output2,User=request.user)
+        question.save()
+        stats = Stats(Question = question,Difficulty=Difficulty,Acceptance=Acceptance,Tricky=Tricky,no=1)
+        tech = Tags(question = question,tags_tecnology = Tecnology,tags_frameworks = Framework)
+        stats.save()
+        tech.save()
+        return redirect("index")
+    tecnology = ['Python', 'Java', 'C', 'C++', 'Kotlin', 'R', 'FRONT-END']
+    Frameworks = ['Django', 'Flask', 'Arrays', 'List', 'String', 'Tupel']
+    
+    return render(request,"main/new_prb.html",{
+        "user_mail":request.user.email,
+        "Tecnology":tecnology,
+        "Frameworks":Frameworks
+    })
+def solved_ques(request):
+    qus = Solved_ques.objects.filter(user =request.user )
+    print(qus)
+    response = []
+    for que  in qus:
+        result ={}
+        result["id"] = que.Questions.id
+        result["title"] = que.Questions.Question_title
+        result["note"]   = que.note
+        result["path"]  = que.path
+        result["time"] = que.timestamp
+        response.append(result)
+    print(response)
+    return render(request,"main/solved.html",{
+        "questions":response
+    })
+def group(request,id):
+    id =int(id)
+    group = Groups.objects.get(id= id)
+    group_members = group.group_members.all()
+    
+    return render(request,"main/group_preview.html",{
+        "group":group,
+        "members":group_members
+    })

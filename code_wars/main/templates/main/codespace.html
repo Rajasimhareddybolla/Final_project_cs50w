@@ -6,8 +6,8 @@
 <div class="main" style="background-color: white">
     <div class="headsection" style="height: 40%">
         <div style="display: flex; justify-content: space-around; width: 100%; color: white">
-            <span class="h5">Problem name</span>
-            <span class="h4" style="background-color: gray">Time Section</span>
+            <kbd><code><span class="h5">{{question.Question_title}}</span></code></kbd>
+            <span class="h4" id="time" style="background-color: gray">Time Section</span>
         </div>
     {%for stats in question.stats_question.all%}
         <div style="height: 40%; width: 100%; display: flex; justify-content: space-around; padding: 20px; color: white">
@@ -44,7 +44,11 @@
                     {% csrf_token %}
                     <input name="title" type="text" value="{{ question.Question_title }}" hidden>
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary btn-sm" style="padding:0 4px 0 4px;margin:0">Small</button>
+                    <div class="input-group mb-3" style="padding-top:10px">
+
+                        <input type="text" class="form-control" placeholder="Notes for this question" name = "note" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm" style="padding:0 10px 0 4px;margin-top:15px">Submit</button>
                 </form>
                 </span>
                 </div>
@@ -107,36 +111,27 @@
             </form>
         </div>
         <div class="discussion" style="color:#0D1321;width: 45%; height: 80%; background-color: rgb(0,142, 146); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; padding: 20px; font-family: Arial, sans-serif; overflow-y: auto; border-radius: 10px;display:none">
-            Collaborate
+
             <hr>
-            <div id="carouselExampleIndicators" style="background:transparent" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-indicators" style="background:transparent;position:sticky;">
-                  <button type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <div id="carouselExampleIndicators" style="background:transparent;overflow-y:scroll" class="carousel slide" data-bs-ride="carousel">
+               
+                {% for form in diss.all %}
+                    <div class="carousel-inner" style="background: #f8f9fa; margin: 10px; padding: 10px; border-radius: 5px;">
+                        <div class="carousel-item active" style="background: #fff; padding: 10px; border-radius: 5px;">
+                            <kbd style="background: #007bff; color: #fff; padding: 5px;">on:</kbd>
+                            <code style="background: #f8f9fa; color: #000; padding: 5px;">{{ form.timestamp }}</code>
+                            <kbd style="background: #007bff; color: #fff; padding: 5px;">Uploaded to:</kbd>
+                            <code style="background: #f8f9fa; color: #000; padding: 5px;">{{ form.path }}</code>
+                            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-top: 10px;">{{ form.note }}</div>
+                            <div style="width: 10px;"></div>
+                        </div>
+                        <hr style="border-color: #007bff;">
+                    </div>
+                {% endfor %}
                 </div>
-                <div class="carousel-inner " style="background:transparent">
-                  <div class="carousel-item active" style="background:transparent">
-                    <div style="background:transparent">{% lorem 1 b random %}</div>
-                </div>
-                  <div class="carousel-item" style="background:transparent">
-                    <div style="background:transparent">{% lorem 1 b random %}</div>
-                  </div>
-                  <div class="carousel-item" style="background:transparent">
-                    <div style="background:transparent">{% lorem 1 b random %}</div>
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-    
-    </div>
+
+            </div>
+        </div>
 </div>
 
 {% endblock %}

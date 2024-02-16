@@ -1,0 +1,143 @@
+{% extends "main/layout.html" %}
+{%block main%}
+<style>
+    form > * {
+        margin: 1px 10px 1px 10px;
+    }
+
+    h4 {
+        color: wheat;
+    }
+
+    label {
+        color: wheat;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+        color: wheat;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid wheat;
+        outline: none;
+        padding: 5px;
+        width: 100%;
+    }
+
+    input[type="range"] {
+        width: 100%;
+    }
+
+    .btn-primary {
+        background-color: wheat;
+        color: #0D1321;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .description {
+        color: #0D1321;
+        min-width: 70%;
+        height: 70%;
+        background-color: wheat;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        overflow-y: auto;
+        border-radius: 10px;
+    }
+</style>
+<kdd><h4><label>New Problem</label></h4></kbd>
+
+<form style="padding:4px;color:wheat" action = "{%url 'new_prb'%}" method = "post">
+    {% csrf_token %}
+    <div style="display:flex;justify-content:space-between">
+    <div class="form-group col-md-5" style="color: wheat;">
+        <label for="inputAddress">Title</label>
+        <input type="text" class="form-control" name="title" id="inputAddress" placeholder="Title hear" required>
+      </div>
+        <div class="form-group col-md-5" style="color:wheat">
+            <label for="inputAddress">mail</label>
+            <input type="text" class="form-control" id="inputAddress" style="background-color:inherit" value={{user_mail}} disabled placeholder="Mail">
+        </div>
+    </div>
+    <div class="form-row" style="display:flex;justify-content:space-between">
+        <div class="form-group col-md-5">
+        <label for="inputEmail4">Input 1</label>
+        <input type="text" class="form-control" required id="inputEmail4" name="input1" placeholder="Input 1">
+      </div>
+      <div class="form-group col-md-5">
+        <label for="inputPassword4">output 1</label>
+        <input type="text" class="form-control" required id="inputPassword4" name="output1" placeholder="Out put 1">
+      </div>
+    </div>
+    <div class="form-row" style="display:flex;justify-content:space-between">
+        <div class="form-group col-md-5">
+        <label for="inputEmail4">Input 2</label>
+        <input type="email" class="form-control" required id="inputEmail4" name="input2" placeholder="Input 2">
+      </div>
+      <div class="form-group col-md-5">
+        <label for="inputPassword4">output 2</label>
+        <input type="password" class="form-control" required id="inputPassword4" name="output2" placeholder="Out put 2">
+      </div>
+    </div>
+    <hr>
+    <div style="display:flex">
+    <div id="review" style="display:flex;flex-direction:column;width:25%;margin-top:30px">
+            <div>
+                <label class="form-label">Difficulty :</label>
+                <input type="range" class="customRange1" name="Difficulty" required id ="Difficulty_level" min="0" max="100">
+            </div>
+            <div>
+                <label  class="form-label">Acceptance :</label>
+                <input type="range"  class="customRange1"  required  name="Acceptance" id ="Acceptance_level" min="0" max="100"> 
+            </div>
+            <div>
+                <label  class="form-label">Tricky :</label>
+                <input type="range"  class="customRange1" id="Tricky_level" name="Tricky" min="0" max="100">
+            </div>
+            <div style="display:flex;margin-top:30px">
+                <div class="form-group col-md-5" style="padding:3px;height:70%">
+                    <label for="tags">Frameworks</label>
+                    <select class="form-control" name="Framework" id="tags" style="background-color:wheat;color:#0D1321;border:none;padding:5px;border-radius:5px;cursor:pointer;">
+                        {%for framework in Frameworks%}
+                            <option value={{framework}}>{{framework}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-md-5" style="padding:3px;height:70%">
+                    <label for="technology">Technology</label>
+                    <select class="form-control" name="Tecnology" id="technology" style="background-color:wheat;color:#0D1321;border:none;padding:5px;border-radius:5px;cursor:pointer;">
+                        {%for technology in Tecnology%}
+                            <option value={{technology}}> {{technology}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div style="padding-top:10%">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+    </div>
+    <div class="code-section" style="display: flex;flex-wrap:wrap; justify-content: space-around; height: 50vh;width:70%;text-align:center;align-items:center;wrap;flex-wrap:wrap">
+        <div class="description" style="color:#0D1321;min-width:70%; height: 70%; background-color:wheat; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; padding: 20px; font-family: Arial, sans-serif; overflow-y: auto; border-radius: 10px;">
+            <dl class="text-primary" style="background-color:transparent">Code description</dl>
+            <hr>
+        <div style="background:inherit">
+            <kbd><label for="code" class="form-label">About Question</label></kbd>
+            <textarea class="form-control" id="code" rows="7" name ="discription" ></textarea>
+        </div>
+        <br>
+        </kbd>
+        </div>
+        </div>
+        
+</div>
+
+  </form>
+{%endblock%}

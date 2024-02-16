@@ -31,11 +31,10 @@
             <div class="dropdown pb-4 " style="background:inherit">
                 <a href="#" class=" d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark">
-                    <span class="d-none d-sm-inline mx-1 bg-dark">loser</span>
+                    <span class="d-none d-sm-inline mx-1 bg-dark">Profile</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                    <li><a class="dropdown-item " href="#">New Problem...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item " href="{%url 'new_prb'%}">New Problem...</a></li>
                     <li><a class="dropdown-item" href="/profile">Profile</a></li>
                     <li>
                         <hr class="dropdown-divider">
@@ -55,17 +54,9 @@
                 
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                    <span class="d-none d-sm-inline mx-1">loser</span>
+                    <span class="d-none d-sm-inline mx-1">Profile</span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
-                </ul>
+                
             </div>
           </button>
 
@@ -81,7 +72,7 @@
                 <a class="nav-link" href="{%url 'prb'%}">Problems...</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link " href="Solved">Solved one</a>
+                <a class="nav-link " href="{%url 'solved_ques'%}">Solved one</a>
               </li>
             </ul>
             <div style="display:flex;position:sticky;top:0;z-index:1" id="searchnav" >
@@ -99,7 +90,7 @@
         </div>
         </nav>
         <div class="card" id="caddee" style="width: 18rem;display:absolute;z-index=5;position:absolute ;display:none;  bottom: 8px;right: 16px;">
-          <a class="a_img"><img class="card-img-top" id="img_for_preview" src="https://github.com/mdo.png" alt="Card image cap" ></a></a>
+          <a class="a_img"><img class="card-img-top" id="img_for_preview" height="250px" src="https://github.com/mdo.png" alt="Card image cap" ></a></a>
           <div>
             <button class="btn btn-sm btn-black" id="close_preview_buttons" type="button" style="color:black"> <code>close 🕹️<code></button>
             <kbd></kbd>

@@ -19,7 +19,7 @@
           {%for follower in  followers %}
           <div id ="#chat">
             <div class = "friends" style="width:inherit;padding:5px;opacity: 70%;" data-id = {{follower.id}}>
-              <a href="{%url 'profile' id=follower.id%}"><span style="padding:11px"><img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark" ></span></a>
+              <a href="{%url 'profile' id=follower.id%}"><span style="padding:11px"><img src={{follower.image}} alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark" ></span></a>
               {{follower.username}}
             </div>
           </div>
@@ -29,15 +29,16 @@
           {%for group in  groups %}
             <div id ="#chat_group">
               <div class = "friends_group" style="width:inherit;padding:5px;opacity: 70%;color:white" data-id = {{group.id}}>
-                <span style="padding:11px"><img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark" ></span>
+                <span style="padding:11px"><img src={{group.image}} alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark" data-id = {{group.id}}></span>
                 {{group.group_title}}
               </div>
             </div>
           {%endfor%}
         </div>
         </div >
-        <div class="card" id="carddee" style="width: 18rem;display:absolute;z-index=0 ;display:none;margin-left:10px">
-          <a class="a_img"><img class="card-img-top" src="https://github.com/mdo.png" alt="Card image cap" ></a></a>
+        <div class="card" id="carddee" style="width: 18rem;display:absolute;z-index=0 ;display:none;margin-left:10px;bottom:30px">
+          <a class="a_img"><img height="250px" class="card-img-top" src="https://github.com/mdo.png" alt="Card image cap" ></a></a>
+
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
