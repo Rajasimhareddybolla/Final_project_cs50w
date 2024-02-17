@@ -1,0 +1,4 @@
+1)in solved_questions database add file where the solved one added path 
+2) for every question model there should a bool feild such that it makes it public or private
+3) page navigator for index page 
+4) have an idea to make this as a single page application
