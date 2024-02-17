@@ -8,6 +8,7 @@ class User(AbstractUser, models.Model):
     # score = models.IntegerField(default=0, choices=no)
     connections = models.ManyToManyField("self",  related_name="follwers",blank=True)
     image = models.TextField(default ="https://images.unsplash.com/photo-1533228876829-65c94e7b5025?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZnJlZSUyMGxpZmV8ZW58MHx8MHx8fDA%3D")
+    bio = models.TextField(default = "I am a developer")
 class Questions(models.Model):
     Question_title = models.CharField(max_length = 65)
     Question_discription = models.TextField(null=False)

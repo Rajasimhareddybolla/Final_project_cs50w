@@ -10,7 +10,7 @@
           <div class="form-group">
             <div style="display:flex;justify-content:space-between" >
               <span style="color:white;padding:10px"> Messages</span>
-              <span style="color:white;padding:10px">Requests    👥</span>
+              <span style="color:white;padding:10px" id="add_group">  Create   👥</span>
             </div>
           </div>
 
@@ -29,7 +29,7 @@
           {%for group in  groups %}
             <div id ="#chat_group">
               <div class = "friends_group" style="width:inherit;padding:5px;opacity: 70%;color:white" data-id = {{group.id}}>
-                <span style="padding:11px"><img src={{group.image}} alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark" data-id = {{group.id}}></span>
+                <a href="{%url 'group' id=group.id%}"> <span style="padding:11px"><img src={{group.image}} alt="hugenerd" width="30" height="30" class="rounded-circle bg-dark" data-id = {{group.id}}></span></a>
                 {{group.group_title}}
               </div>
             </div>
@@ -46,8 +46,32 @@
         </div>
         </div>
       </div>
-      <div class="card" style="width: 55%; color: black;height:92%;text-align:center;margin-top:20px">
-      <div id = "msg-section-for"style="height: 200vh;">
+      <div class="card" style="width: 55%; color: black;height:92%;text-align:center;margin-top:20px;">
+        <div id="msg--for" style="height: 100%;display:none">
+          <form method="post" action="/submit_group" class="form-group dark-form" method ="post">
+            {%csrf_token%}
+            <div class="form-group">
+              <label for="group_name">Group Name</label>
+              <input type="text" id="group_name" name="group_name" class="form-control dark-input" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" name="description" class="form-control dark-input" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="rules">Rules</label>
+              <textarea id="rules" name="rules" class="form-control dark-input" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="profile_url">Profile URL</label>
+              <input type="url" id="profile_url" name="profile_url" class="form-control dark-input" required>
+            </div>
+            <button type="submit" class="btn btn-primary dark-button">Create Group</button>
+          </form>
+        </div>
+    
+     
+        <div id = "msg-section-for"style="height: 200vh;">
         <div class="card-body">
           <div id="hype" class="hype bg-dark" style="display:flex;justify-content:space-around;">
           <div  class="bg-dark"id = "friedns_title" style="opacity:70%;border-radius:7px">
@@ -69,6 +93,54 @@
     </div>
     <div style="position:relative;display:flex;width:100%;flex-direction:row">
         <textarea id="messageInput"style="width:80%;margin-left:20px" data-id = 900 class="form-control" rows="1" cols="70" placeholder="Type your message here..." ></textarea>
-
     </div>
-{%endblock%}
+    <style>
+      #msg--for {
+        height: 200vh;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .form-group label {
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .form-control {
+        background-color: #555;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+    </style>
+  {%endblock%}

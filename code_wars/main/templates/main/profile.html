@@ -27,6 +27,10 @@
                 <p>Connections</p>
             </div>
             <div>
+                <h4>{{user.email}}</h4>
+                <p>email</p>
+            </div>
+            <div>
         
             {% if user.is_connected %}
                 <button id ="dconnect_button" type="button" value="{{user.id}}" class="btn btn-primary" style="background:skyblue;border-radius:5px"> disconnect </button>
@@ -44,11 +48,9 @@
             </ul>
         </div>
         <div class="consistency">
-            <h2>Consistency Throughout the Year</h2>
+            <h2>Bio</h2>
             <div class="consistency-chart">
-                <div class="consistency-chart-bar" style="width: 10%;"></div><!-- Example: Width represents consistency percentage for each month -->
-                <div class="consistency-chart-bar" style="width: 20%;"></div>
-                <div class="consistency-chart-bar" style="width: 30%;"></div>
+                <div class="consistency-chart-bar" style="width: 10%;">{{user.bio}}</div><!-- Example: Width represents consistency percentage for each month -->
                 <!-- Add more bars for each month -->
             </div>
         </div>
@@ -62,25 +64,23 @@
         </div>
         <div class="achievements">
             <h2>Achievements</h2>
-            <ul class="badge-list">
-                <li><div class="badge">1</div></li>
-                <li><div class="badge">2</div></li>
-                <li><div class="badge">3</div></li>
+            <ul class="badge-list" style="display:flex;overflow:auto">
+                {% for badge in user.achivments %}
+                    <li><div class="badge">{{ forloop.counter }} </div></li>
+                    <img src="{% static badge %}">
+                {% endfor %}
                 <!-- Add more badges -->
             </ul>
         </div>
         {% if user.root  %}
         <div class="profile-settings">
             <h2>Profile Settings</h2>
-            <form class="profile-settings-form">
-                <input type="text" placeholder="Full Name">
-                <input type="text" placeholder="Email">
-                <textarea placeholder="Bio"></textarea>
-                <input type="file" accept="image/*">
-                <select>
-                    <option value="dark">Dark Theme</option>
-                    <option value="light">Light Theme</option>
-                </select>
+            <form class="profile-settings-form" action = "update_profile" method="post">
+                {%csrf_token%}
+                <input type="text" name="username" value={{user.username}} disabled default="">
+                <input type="text" name ="email" disabled value={{user.email}}>
+                <textarea  name="bio" value={{user.bio}}></textarea>
+                <input type="text" name="url" value={{user.image}}>
                 <input type="submit" value="Save Changes">
             </form>
         </div>

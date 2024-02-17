@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="{% static 'style_login.css'%}">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="623352232041-qf1p0tf4o2bc7jlktanf191sffvljmab.apps.googleusercontent.com">
+
     <title>Modern Login Page</title>
 </head>
 
@@ -28,7 +31,8 @@
                 <input type="email" name="email" placeholder="Email">
                 <input type="password" name = "password" placeholder="Password">
                 <input type="password" name = "confirmation" placeholder="Confirm your Password">
-                <input type="file" name="file" capture="user"/>
+                <input type="text" name = "bio" placeholder="Bio">
+                <input type="text" name="url" placeholder="Image Address" capture="user">
                 <button type="submit">Sign Up</button>
             </form>
         </div>
@@ -67,5 +71,20 @@
 
     <script src="{% static 'script.js' %}"></script>
 </body>
-
+<script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      }
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
 </html>
