@@ -21,16 +21,19 @@ def Login(request):
     if request.method == "POST":
         name = request.POST["username"]
         password = request.POST["password"]
-        user1 = authenticate(request, username=name, password=password) 
+        user1 = authenticate(request, username=name, password=password)
+    
         #it check the login creditionals with the User class data which is in our models
-        if user1:
-            user2 = User.objects.get(username = name)
-            if user2.is_superuser:
-                admin.active =True #it activate the admin site
-            
-            login(request,user1) #it attach the user to the current session
-            new = session_active(user = request.user)
-            new.save()
+        if user1 is not None:
+            try:
+                user = User.objects.get(username = name)
+            except:
+                return render(request,"main/login.html",{
+                    "message":"username not found"
+                })
+            if user.is_superuser:
+                admin.active =True
+            login(request,user) #it attach the user to the current session
             return redirect('index')
     return render(request,"main/login.html") #yet to devolp
 
@@ -38,7 +41,8 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
-
+        url = request.POST["url"]
+        bio = request.POST["bio"]
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
@@ -46,10 +50,9 @@ def register(request):
             return render(request, "main/register.html", {   #pending direct to the register page 
                 "message": "Passwords must match."
             })
-
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username = username,email= email,password= password,image = url,bio = bio)
             user.save()
         except IntegrityError:
             return render(request, "main/register.html", {
@@ -108,23 +111,18 @@ def codespace(request,id=-1):
             title = request.POST["title"]
             question = Questions.objects.get(Question_title = title)
             note = request.POST["note"]
-            print("i am uploading"+title)
             solved =Solved_ques(user = request.user,Questions = question,note = note ,path = f"uploads/{request.user.username}/{title}{os.path.splitext(request.FILES["file"].name)[1]}")
             solved.save()
             form = Upload_file(request.POST,request.FILES)
             if form.is_valid():
                 handle_uploaded_file(request.FILES["file"],request.user.username,title)  
-                return redirect("index",{
-                    "name":request.user.username,
-                    "image":request.user.image
-                })
+                return redirect("index")
             else:
                 print(form.errors)
         question = Questions.objects.get(id = id)
         form = Upload_file()
         diss = Solved_ques.objects.filter(Questions = question)
         diss = diss.values('note','path','timestamp')
-        print(diss)
         return render(request,"main/codespace.html",{
             'question':question
             ,"form":form,
@@ -135,11 +133,10 @@ def codespace(request,id=-1):
 def Logout(request):
 
     logout(request)
-    return redirect('login')
+    return redirect('index')
 @csrf_exempt
 def messages(request):
     id =json.loads(request.body)
-    print(id)
     id = id["reciver"]
     reciver = User.objects.get(id = id)
     messages = Chats.objects.filter(Q(Q(user = request.user) &  Q(reciver=reciver)) | Q(Q(user = reciver) &  Q(reciver=request.user) ))
@@ -155,7 +152,6 @@ def messages(request):
 def send_msg_group(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        print(data)
         msg = data["msg"]
         id = int(data["id"])
         reciver = Groups.objects.get(id = id)
@@ -167,7 +163,6 @@ def send_msg_group(request):
 def send_msg(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        print(data)
         msg = data["msg"]
         id = int(data["id"])
         reciver = User.objects.get(id = id)
@@ -204,19 +199,29 @@ def update_stats(request):
 def profile(request,id="raja"):
     if (id=="raja"):
         user = User.objects.get(id = request.user.id)   
-        data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),"root": True,"image":user.image}
-   
+        no = user.ques_solved.all().count()
+        achivments = []
+        for i in range(0,no):
+            path = "reward_section/"+str(i)+".png"
+            achivments.append(path)
+        data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),"root": True,"image":user.image,"bio":request.user.bio,"email":user.email,"achivments":achivments}
         return render(request,"main/profile.html",{
             'user':data_set,
     })     
     else:
         user = User.objects.get(id = id)
+        no = user.ques_solved.all().count()
+        achivments = []
+        for i in range(0,no):
+            path = "reward_section/"+str(i)+".png"
+            if i<5:
+               achivments.append(path)
+            
         if request.user in user.connections.all():
             connected = True
         else:
             connected = False
-        print(connected)
-    data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),'is_connected': connected,"id":id,"image":user.image}
+    data_set = {"username":user.username,"problems_solved":user.ques_solved.all(),"connections":user.connections.all().count(),"q_no":user.ques_solved.all().count(),'is_connected': connected,"id":id,"image":user.image,"bio":user.bio,"email":user.email,"no_solved":user.ques_solved.all().count(),"achivments":achivments}
     return render(request,"main/profile.html",{
         'user':data_set,
         
@@ -225,11 +230,9 @@ def profile(request,id="raja"):
 @csrf_exempt
 def messages_group(request):
     id =json.loads(request.body)
-    print(id)
     id = id["reciver"]
     group = Groups.objects.get(id = id)
     messages = group.group_chat.all()
-    print("i am ")
     messages = messages.order_by("time")
     js = serializers.serialize('json',messages)
     
@@ -247,15 +250,12 @@ def find_data(request):
         data = Groups.objects.all().values_list("group_title","id")
     for chunk in data:
         responde.append((chunk[1], chunk[0]))
-    print(responde)
     return JsonResponse(responde,safe=False)
 @csrf_exempt
 def connect(request):
     if request.method == "POST":
-        print("hello")
         response = json.loads(request.body)
         type = response["type"]
-        print(response)
         user = User.objects.get(id = request.user.id)
         person = User.objects.get(id = int(response["id"]))
         if type == "u":
@@ -263,7 +263,6 @@ def connect(request):
         elif type == "f":
             user.connections.add(person)
         return redirect("index")
-    print("error")
 @csrf_exempt
 def preview(request):
     response = json.loads(request.body)
@@ -272,7 +271,6 @@ def preview(request):
     id = id[-1]
     result={}
     if type == "Group":
-        print(response)
         group = Groups.objects.get(id = id)
         result["img"] = group.image
         if request.user in group.group_members.all():
@@ -302,7 +300,6 @@ def alter_connections(request):
         type = response["type"]
         id = response["id"]
         state = response["state"]
-        print(response)
         user = User.objects.get(id = request.user.id)
         if type == "Friend":
             person = User.objects.get(id = int(response["id"]))
@@ -330,7 +327,6 @@ def new_prb(request):
         Difficulty = int(request.POST["Difficulty"])
         Framework = request.POST["Framework"]
         Tecnology = request.POST["Tecnology"]
-        print(request.POST)
         question = Questions(Question_title = title,Question_discription=discription,input1=input1,output1=output1,input2=input2,output2=output2,User=request.user)
         question.save()
         stats = Stats(Question = question,Difficulty=Difficulty,Acceptance=Acceptance,Tricky=Tricky,no=1)
@@ -348,7 +344,6 @@ def new_prb(request):
     })
 def solved_ques(request):
     qus = Solved_ques.objects.filter(user =request.user )
-    print(qus)
     response = []
     for que  in qus:
         result ={}
@@ -358,7 +353,6 @@ def solved_ques(request):
         result["path"]  = que.path
         result["time"] = que.timestamp
         response.append(result)
-    print(response)
     return render(request,"main/solved.html",{
         "questions":response
     })
@@ -371,3 +365,28 @@ def group(request,id):
         "group":group,
         "members":group_members
     })
+def submit_group(request):
+    if request.method =="POST":
+        title = request.POST["group_name"]
+        discription = request.POST["description"]
+        rules = request.POST["rules"]
+        image = request.POST["profile_url"]
+        group = Groups(owner = request.user,group_title = title,group_discription = discription,rules = rules,image = image)
+        group.save()
+        group.group_members.add(request.user)
+        chat = Group_chat(user = request.user,reciver = group,messages = f"hello this is {request.user.username} and i am the owner of this group")
+        chat.save()
+        group.save()
+    return redirect("index")
+def get_status(request):
+    user = request.user
+    response = {"name":user.username,"image":user.image}
+    return JsonResponse(response,safe=False)
+def update_profile(request):
+    if request.method == "POST":
+        user = User.objects.get(id = request.user.id)
+        user.bio = request.POST["bio"]
+        user.image = request.POST["url"]
+        user.save()
+        return redirect("index")
+    return redirect("index")
