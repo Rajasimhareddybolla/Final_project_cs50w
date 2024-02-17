@@ -16,7 +16,16 @@ I have the list of features for my web design which saves a lot of time in desig
 ##  Creating Html - Pages
 This is a way bit easier but is a time-death process that consumes most of the time (I have decided to use BootStrap rather than copy-past others' code)
 As I said it is a TDS process and I used to create pages with some random data that might come from the server in feature.
-
+## Search bar 
+It is the one of the toughest part which i faced throught this project due to this functionality 
+hear are the search commands to use  
+> User : @  
+> ex: @raja to search raja  
+Group : $    
+> ex: $pspk to search pspk  
+Questiion: #  
+> ex: # Rotate array  
+which result's some suggestions with some unique code plz obey it otherwise it render some improper information
 ## Connecting with Backend
 This step is just like the heart of the whole project which connects with more than 12 tables which makes the job difficult on getting data and rendering to page.
 As we have the front end. template and data from tables such that it's not a big job to connect in a structured or planned way.
