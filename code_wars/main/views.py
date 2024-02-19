@@ -34,6 +34,7 @@ def Login(request):
             if user.is_superuser:
                 admin.active =True
             login(request,user) #it attach the user to the current session
+            print("sucess")
             return redirect('index')
     return render(request,"main/login.html") #yet to devolp
 

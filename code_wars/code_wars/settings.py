@@ -32,6 +32,7 @@ AUTH_USER_MODEL = 'main.User'
 # Application definition
 SITE_ID = 1
 INSTALLED_APPS = [
+    'selenium',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
