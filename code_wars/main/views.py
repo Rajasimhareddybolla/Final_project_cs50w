@@ -236,7 +236,7 @@ def messages_group(request):
     messages = group.group_chat.all()
     messages = messages.order_by("time")
     js = serializers.serialize('json',messages)
-    
+
     return JsonResponse(js,safe=False)
 @csrf_exempt
 def find_data(request):

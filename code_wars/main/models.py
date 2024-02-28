@@ -66,8 +66,8 @@ class Chats(models.Model):
     Reaction = models.TextField(choices = reactions,blank = True)
 
 class Group_chat(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name = "sender_chat")
-    reciver = models.ForeignKey(Groups,on_delete=models.CASCADE,related_name = "group_chat")
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name = "sender_chat") # sender
+    reciver = models.ForeignKey(Groups,on_delete=models.CASCADE,related_name = "group_chat") # group name
     messages = models.CharField(max_length=255)
     time = models.DateTimeField(auto_now_add=True)
     Reaction = models.TextField(choices = reactions)

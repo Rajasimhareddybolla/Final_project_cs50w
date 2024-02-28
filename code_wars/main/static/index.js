@@ -1,6 +1,12 @@
 colors = ["primary","secondary","success","info","warning","danger","light","dark"]
 const data ={"@":"users","#":"Questions","$":"Group"};
 document.addEventListener("DOMContentLoaded", function(){
+    let intervel = 1;
+    let inter = 1;
+    // let hype = document.querySelector("#hype");
+    // if(hype){
+    //     let user_name = hype.querySelector("h3").innerText;
+    // }
     profile = document.querySelector("#profile_pic");
     if (profile){
     fetch("/get_status")
@@ -10,8 +16,16 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector("#profile_name").innerHTML = response.name;
     })}
     const el = document.querySelector("#add_group");
+
     if (el){
         el.addEventListener("click",()=>{
+            if(inter){
+                console.log("he kdd");
+                clearInterval(inter);
+            }
+            if(intervel){
+                clearInterval(intervel);
+            }
             document.querySelector("#msg--for").style.display="flex";
             document.querySelector("#msg-section-for").style.display="none";
         });
@@ -233,6 +247,7 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     }
     function msg_manneager(element,group=false){
+        console.log("hello world");
         const reciver_id =element.dataset.id;
         document.querySelector("#msg--for").style.display="none";
         document.querySelector("#msg-section-for").style.display="flex";
@@ -294,7 +309,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             });
     }
-
     const elements = document.getElementsByClassName("friends");
     if (elements){
         for (const element of elements) {
@@ -304,9 +318,16 @@ document.addEventListener("DOMContentLoaded", function(){
             element.querySelector("img").addEventListener("mouseout" , ()=>{
                 card.style.display = "none";
             });
+
             element.addEventListener("click", (event) => {
+                if (intervel){
+                    clearInterval(intervel);
+                }
                 event.stopPropagation();
                 msg_manneager(element);
+                intervel =  setInterval(()=>{
+                    msg_manneager(element);
+                },400);
             });
         }
     }
@@ -323,6 +344,15 @@ document.addEventListener("DOMContentLoaded", function(){
             group.addEventListener("click", (event) => {
                 event.stopPropagation();
                 msg_manneager(group,true);
+                if(inter){
+                    clearInterval(inter);
+                }
+                if(intervel){
+                    clearInterval(intervel);
+                }
+                setInterval(() => {
+                  inter=  msg_manneager(group,true)
+                }, 400);
             });
         }
     }
@@ -353,7 +383,8 @@ document.addEventListener("DOMContentLoaded", function(){
             new_msg = msg_bar.value;
             msg_bar.value = "";
             msg_bar.style.placeholder = "enter your message";
-            if(localStorage.getItem("type")=="group"){
+            let type =localStorage.getItem("type");
+            if(type=="group"){
                 url = "/msg_send_group";
             }
             else{
@@ -366,6 +397,33 @@ document.addEventListener("DOMContentLoaded", function(){
             )
             .then(result=>result)
             .then(result=>{
+                const tmp = document.createElement("li")
+                let div = document.createElement("div");
+                div.className = "raja";
+                const span = document.createElement("span")
+                const span2 = document.createElement("span")
+                span2.className = "time";
+                span.innerHTML =new_msg;
+                let now = new Date();
+                const time = now.getHours()+":"+now.getMinutes();
+                const div2 = document.createElement("div");
+                div2.className = "time_name";
+                span2.innerHTML= time;
+                
+                tmp.className="list-group-item";
+                // if (type == "group" & !(msg.fields.user == reciver_id)){
+                //     const spanee = document.createElement("span");
+                //     spanee.innerHTML = msg.fields.user;
+                //     spanee.style.fontSize = "70%";
+                //     spanee.style.paddingTop = "10px";
+                //     spanee.style.paddingRight = "10px";
+                //     div2.appendChild(spanee);
+                // }
+                div2.appendChild(span2)
+                tmp.appendChild(span)
+                tmp.appendChild(div2)
+                div.appendChild(tmp)
+                document.querySelector("#ul_friends").appendChild(div);
             });
 
         }

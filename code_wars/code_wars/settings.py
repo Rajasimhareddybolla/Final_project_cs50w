@@ -34,10 +34,6 @@ SITE_ID = 1
 INSTALLED_APPS = [
     'selenium',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
 
     'main',
     'django.contrib.admin',
@@ -48,24 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-SOCIALACCOUNT_LOGIN_ON_GET=True
-AUTHENTICATION_BACKENDS = [
-    
-    'allauth.account.auth_backends.AuthenticationBackend'
-    ]
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
+
 MIDDLEWARE = [
-"allauth.account.middleware.AccountMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
