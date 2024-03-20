@@ -29,6 +29,7 @@ urlpatterns = [
     path('group/<int:id>',views.group,name="group"),
     path('submit_group',views.submit_group,name="submit_group"),
     path("update_profile",views.update_profile,name="update_profile"),
+    path('alerts',views.alerts , name ="alerts"),
+    path('submit_question',views.submit_question , name="submit_question")
     
 ]
-tmp = [{"model": "main.chats", "pk": 1, "fields": {"user": 1, "reciver": 2, "messages": "hello raja", "time": "2024-02-12T14:25:18.765Z", "Reaction": "love"}}, {"model": "main.chats", "pk": 2, "fields": {"user": 1, "reciver": 2, "messages": "this is second message", "time": "2024-02-13T11:42:47.163Z", "Reaction": "skull"}}, {"model": "main.chats", "pk": 3, "fields": {"user": 1, "reciver": 3, "messages": "this is raja and expecting you are reddy", "time": "2024-02-13T11:48:55.372Z", "Reaction": "bat"}}]

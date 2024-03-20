@@ -6,7 +6,7 @@
 <div class="main" style="background-color: white">
     <div class="headsection" style="height: 40%">
         <div style="display: flex; justify-content: space-around; width: 100%; color: white">
-            <kbd><code><span class="h5">{{question.Question_title}}</span></code></kbd>
+            <kbd><code><span class="h5" >{{question.Question_title}}</span></code></kbd>
             <span class="h4" id="time" style="background-color: gray">Time Section</span>
         </div>
     {%for stats in question.stats_question.all%}
@@ -35,7 +35,7 @@
 
         </div>
         <div style="color : wheat;display:flex;justify-content:space-around">
-            <div style="margin:30px" class="text-primary " id="heading_title"> {{question.Question_title}}</div>
+            <div style="margin:30px" class="text-primary " id="heading_title"  > {{question.id}}</div>
             <div style="display:flex;justify-content:space-between">
             <div class="h6" style="margin:30px;">
                 <span>
@@ -86,12 +86,30 @@
 
         </kbd>
         <hr>
+        <div style="display:flex;justify-content:space-around;align-content:space-between">
         <kbd id ="open_discussion">Discussion Form </kbd>
+        <kbd id ="open_code_editor">Open_code_editor </kbd>
+        <kbd id ="review_form">Review question </kbd>
+        </div>
+        </div>
+        </div>
+        <div style="display:flex;flex-direction:column;width:50%">
+        <div class="code-editor" contenteditable id ="text_of_submission">
+            # Write your Python code here...
 
+          </div>
+          <div style="display:flex;justify-content:space-between;flex-direction:row-reverse">
+          <kbd id ="submit_code"  style="margin:10px  ;style:flex;width:10%;color:red">Submit</kbd>
+          <div class="language-selector" id ="language">
+            <select id="language_selector">
+              <option value="py">Python</option>
+              <option value="java">Java</option>
+              <!-- Add more language options as needed -->
+            </select>
         </div>
+          </div>
         </div>
-        
-        <div id="review" >
+        <div id="review" style="display:none">
             <form id="review_form" >
                 <input type="text" value={{question.id}} hidden id="question_id">
                 <div>

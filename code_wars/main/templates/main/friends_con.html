@@ -5,8 +5,8 @@
 {%endblock%}
 {%block main%}
     <div class="main" style="display:flex; height: 80vh;justify-content:space-between">
-      <div class="card" style="width: 40%; color: black;">
-        <div class="card-body">
+      <div class="card" style="width: 40%; color: black;" >
+        <div class="card-body" >
           <div class="form-group">
             <div style="display:flex;justify-content:space-between" >
               <span style="color:white;padding:10px"> Messages</span>
@@ -25,7 +25,9 @@
           </div>
           {%endfor%}
           <hr>
+          {% if groups %}
           <h6 style="color:wheat;margin-left:20px;display:flex">Groups:</h6>
+          {%endif%}
           {%for group in  groups %}
             <div id ="#chat_group">
               <div class = "friends_group" style="width:inherit;padding:5px;opacity: 70%;color:white" data-id = {{group.id}}>
@@ -83,7 +85,7 @@
         <div class="card" style="width: inherit;background:inherit;height:80%;z-index:0">
           <ul class="list-group list-group-flush" style="z-index:0" id="ul_friends">
             <div class="raja">
-            <li class="list-group-item"  style="display:flex;justify-content:space-around"><span>A third item</span ><span class="date">2024-02-12T14:25:18.765Z</span></li>
+            <li class="list-group-item" ><span style="color:white">A third item</span ><span class="date">2024-02-12T14:25:18.765Z</span></li>
             </div>
           </ul>
         </div>
@@ -91,13 +93,13 @@
         </div>
 
     </div>
-    <div style="position:relative;display:flex;width:100%;flex-direction:row">
-        <textarea id="messageInput"style="width:80%;margin-left:20px" data-id = 900 class="form-control" rows="1" cols="70" placeholder="Type your message here..." ></textarea>
+    <div style="position:relative;display:flex;width:100%;flex-direction:row" id="messeee">
+        <textarea id="messageInput"style="width:80%;margin-left:20px;background-color:white" data-id = 900 class="form-control" rows="1" cols="70" placeholder="Type your message here..." ></textarea>
     </div>
     <style>
       #msg--for {
         height: 200vh;
-        background-color: #333;
+        background-color: #black;
         color: #fff;
         padding: 20px;
         border-radius: 10px;

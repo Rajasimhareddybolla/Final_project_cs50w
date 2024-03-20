@@ -3,10 +3,69 @@ const data ={"@":"users","#":"Questions","$":"Group"};
 document.addEventListener("DOMContentLoaded", function(){
     let intervel = 1;
     let inter = 1;
+   
+    const code_submission = document.querySelector("#submit_code");
+    if (code_submission){
+        code_submission.addEventListener("click",(event)=>{
+            
+            const lang = document.querySelector("#language_selector").value;
+            const code = document.querySelector("#text_of_submission").innerText;
+            const question = document.querySelector("#heading_title").innerText;
+            console.log(question);
+            fetch("/submit_question",{
+                method:"POST",
+                body:JSON.stringify({"question":question,"file_type":lang,"content":code})
+
+            })
+            .then(result=>result.json())
+            .then(response=>{
+                console.log("response");
+                console.log(response);
+            })
+        });
+    }
+
     // let hype = document.querySelector("#hype");
     // if(hype){
     //     let user_name = hype.querySelector("h3").innerText;
     // }
+    document.querySelector(".navbar-brand").addEventListener("click", (event) => {
+        event.preventDefault();
+        fetch("alerts")
+            .then(response => response.json())
+            .then(result => {
+                try {
+                    var toast = new bootstrap.Toast(document.getElementById("liveToast"));
+                    console.log(result);
+                    result = JSON.parse(result);
+                    console.log(typeof(result))
+    
+                    if (result) {
+                        console.log(result[0].fields)
+                        document.querySelector(".toast-header").innerHTML = result[0].name;
+                        document.querySelector(".toast-body").innerHTML = result[0].fields.messages;
+                        document.querySelector("#profile_pec").src = result[0].image;
+                        toast.show();
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
+            })
+            .catch(error => {
+                console.error('An error occurred while fetching the alerts:', error);
+            });
+            /// hear is thata
+        fetch("submit_question",{
+            method:"POST",
+            body:JSON.stringify({"question":"first_test","file_type":"py","content":"import os as o"})}
+        )
+        .then(response => response.json())
+        .then(() => {
+            console.log("go and check")
+        })
+        });
+    
+    var profile = document.querySelector("#profile_pic");
     profile = document.querySelector("#profile_pic");
     if (profile){
     fetch("/get_status")
@@ -26,6 +85,8 @@ document.addEventListener("DOMContentLoaded", function(){
             if(intervel){
                 clearInterval(intervel);
             }
+            document.querySelector("#messeee").style.display="none";
+
             document.querySelector("#msg--for").style.display="flex";
             document.querySelector("#msg-section-for").style.display="none";
         });
@@ -57,23 +118,52 @@ document.addEventListener("DOMContentLoaded", function(){
             ele.parentElement.removeChild(ele);
         })
     }
-    const opeen_dis = document.querySelector("#open_discussion")
-    if (opeen_dis){
-        opeen_dis.addEventListener("click",()=>{
-            const div = document.querySelector(".discussion");
-            if (div.style.display == "none"){
-                document.querySelector("#review_form").style.display = "none";
-                div.style.display="flex";
-                opeen_dis.innerHTML = "Close Discussion";
-            }
-            else{
-                document.querySelector("#review_form").style.display = "flex";
-                div.style.display="none"
-                opeen_dis.innerHTML = "Open Discussion";
-            }
+    // const opeen_dis = document.querySelector("#open_discussion")
+    // if (opeen_dis){
+    //     opeen_dis.addEventListener("click",()=>{
+    //         const div = document.querySelector(".discussion");
+    //         if (div.style.display == "none" ){
+    //             document.querySelector("#language_selector").style.display = "none";
+    //             document.querySelector("#submit_code").style.display ="none";
+    //             document.querySelector("#review").style.display = "none";
+    //             document.querySelector("#text_of_submission").style.display = "none";
+    //             div.style.display="flex";
+    //             opeen_dis.innerHTML = "Close Discussion";
+    //         }
+    //     });
+    // }
+    // // text_of_submission .discussion review
+    // const open_code_editor = document.querySelector("#open_code_editor")
+    // if (open_code_editor){
+    //     opeen_dis.addEventListener("click",()=>{
+    //         const div = document.querySelector("#text_of_submission");
+    //         if (div.style.display == "none" ){
+    //             document.querySelector("#language_selector").style.display = "flex";
+    //             document.querySelector("#submit_code").style.display ="flex";
+    //             document.querySelector("#review").style.display = "none";
+    //             document.querySelector(".discussion").style.display = "none";
+    //             div.style.display="flex";
+            
+    //         }
+
+    //     });
+    // }
+    //     // text_of_submission .discussion review
+    //     const review = document.querySelector("#review_form")
+    //     if (open_code_editor){
+    //         opeen_dis.addEventListener("click",()=>{
+    //             const div = document.querySelector("#review");
+    //             if (div.style.display == "none" ){
+    //                 document.querySelector("#text_of_submission").style.display = "none";
+    //                 document.querySelector("#language_selector").style.display = "none";
+    //                 document.querySelector("#submit_code").style.display ="none";
+    //                 document.querySelector(".discussion").style.display = "none";
+    //                 div.style.display="flex";
+                
+    //             }
     
-        });
-    }
+    //         });
+    //     }
     const form =  document.querySelector("#form_submit") ;
     if (form){
         form.addEventListener("click",(e)=>{
@@ -146,6 +236,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     search.value = ""
                     if (result.connect){
                         document.querySelector("#alter_connections_button").innerHTML = "Exit";
+                        
                     }
                     else{
                         document.querySelector("#alter_connections_button").innerHTML = "Connect:";
@@ -205,14 +296,24 @@ document.addEventListener("DOMContentLoaded", function(){
             })
             .then(result=>{result.response})
             .then(response=>{
-                if(state = "u"){
-                    alert.innerHTML="Follow Back";
-                }
-                else{
-                    alert.innerHTML="Exit";
-                }
+                let initial = document.querySelector("#Connections");
+                initial_f = parseInt(initial.innerHTML);
+                    if (alter.innerHTML=="Exit"){
+                        console.log(response+"ext");
+                        alter.innerHTML = "Connect";
+                        c_followrs = initial_f-1;
+                    }
+                    else{
+                        console.log(response+"con");
+                        alter.innerHTML = "Exit";
+                        c_followrs = initial_f+1;
+                    }
+                    initial.innerHTML = c_followrs;
+                
             }
-            )
+            
+            );
+
             
         })}
         const datalist = document.querySelector("#AutoSugestionslist");
@@ -320,6 +421,7 @@ document.addEventListener("DOMContentLoaded", function(){
             });
 
             element.addEventListener("click", (event) => {
+                document.querySelector("#messeee").style.display="flex";
                 if (intervel){
                     clearInterval(intervel);
                 }
@@ -327,7 +429,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 msg_manneager(element);
                 intervel =  setInterval(()=>{
                     msg_manneager(element);
-                },400);
+                },5000);
             });
         }
     }
@@ -352,7 +454,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 setInterval(() => {
                   inter=  msg_manneager(group,true)
-                }, 400);
+                }, 5000);
             });
         }
     }
@@ -445,7 +547,7 @@ document.addEventListener("DOMContentLoaded", function(){
             time.textContent = hours + ":" + minutes + ":" + seconds;
             
             // Call the function every second to update the time
-            setTimeout(update_time, 1000);   
+            setTimeout(update_time, 5000);   
         }
         function checkTime(i) {
             if (i < 10) {

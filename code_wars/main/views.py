@@ -14,6 +14,7 @@ from django.shortcuts import redirect
 from  django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 import random
+
 # Create your views here.
 #defining a form 
 
@@ -105,6 +106,7 @@ def handle_uploaded_file(f, user, title):
             destination.write(chunk)
 class Upload_file(forms.Form):
     file = forms.FileField()
+    file.widget.attrs.update({'class': 'form-controler'})
 
 def codespace(request,id=-1):
     if request.user.is_authenticated:
@@ -145,6 +147,10 @@ def messages(request):
         message = Chats(user = request.user , reciver= reciver , messages =f"hai this is {request.user.username}" )
         message.save()
         messages = message
+    for messa in messages:
+        if  messa.alerted == False and request.user == messa.reciver:
+            messa.alerted = True    
+            messa.save()
     messages = messages.order_by("time")
     js = serializers.serialize('json',messages)
     
@@ -167,7 +173,7 @@ def send_msg(request):
         msg = data["msg"]
         id = int(data["id"])
         reciver = User.objects.get(id = id)
-        chat = Chats(user = request.user,reciver = reciver,messages = msg)
+        chat = Chats(user = request.user,reciver = reciver,messages = msg,alerted = False)
         chat.save()
         return JsonResponse({"message":"sucess"})
     return redirect("index")
@@ -391,3 +397,50 @@ def update_profile(request):
         user.save()
         return redirect("index")
     return redirect("index")
+def alerts(request):
+    messages =  Chats.objects.filter(reciver = request.user , alerted = False)[0:1]
+    print(messages)
+    mess = serializers.serialize('json',messages)
+    if (messages):
+        sender = User.objects.get(username = messages[0].user.username)
+        for message in messages:
+            message.alerted = True
+            message.save()
+        mess = json.loads(mess)
+        for m in mess:
+            m["name"] = sender.username
+            m["image"] = sender.image
+    # mess[0]+="" sender.image
+    # mess[0]['name'] =sender.username
+   
+    mess = json.dumps(mess,cls=serializers.json.DjangoJSONEncoder)
+
+    return JsonResponse(mess,safe=False)
+@csrf_exempt
+
+def submit_question(request):
+    response = {"msg": "No action performed."}
+
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data["question"], data["file_type"], data["content"])
+
+        submission_dir = f'submissions/{request.user}'
+        os.makedirs(submission_dir, exist_ok=True)
+        ques = Questions.objects.get(id = int(data["question"]))
+        i1=ques.input1
+        i2 = ques.input2
+        o1 = ques.output1
+        o2 = ques.output2
+        path = os.path.join(submission_dir, f'{data["question"]}.{data["file_type"]}')
+        
+        with open(os.path.join(submission_dir, f'{data["question"]}.{data["file_type"]}'), 'w+') as file:
+            content = data["content"]
+            file.write(content)
+         
+        response = {"msg": "Submission successful."}
+
+    return JsonResponse(response)
+def start_testing():
+    from submissions.raja import Solution
+    ascii()

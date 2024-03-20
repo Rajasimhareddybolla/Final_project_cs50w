@@ -27,6 +27,7 @@
                 <!--[if lt IE 7]>
                     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
                 <![endif]-->
+        
         <div class="section-1" style="display:flex;justify-content:space-between;flex-wrap:wrap">
             <div style ="display:flex;width:65%;justify-content:space-between" id="section-11">
                 <span class="dot" id="profile_sidebar" style="flex-wrap:nowrap"></span>
@@ -67,7 +68,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent" style="position:sticky;top:0;z-index:1">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{%url 'friends'%}">Connect</a>
@@ -79,15 +80,14 @@
                 <a class="nav-link " href="{%url 'solved_ques'%}">Solved one</a>
               </li>
             </ul>
-            <div style="display:flex;position:sticky;top:0;z-index:1" id="searchnav" >
+            <div style="display:flex;position:sticky;top:0;z-index:1;" id="searchnav" >
               <form class="form-inline my-2 my-lg-1" style="display:flex;position:sticky;top:0;z-index:1">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  id ="navsearchbar"list="AutoSugestionslist">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  id ="navsearchbar"list="AutoSugestionslist" style="background-color:white">
                 <datalist id = "AutoSugestionslist">
                   <option value="Objective C">Objective C</option>
 
                 </datalist>
-                <div class="vr bg-white "></div>
-                <button id="search_submit" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button id="search_submit" style="display:none" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
           </div>
@@ -103,11 +103,17 @@
               <button class="btn btn-sm btn-primary" id="alter_connections_button" type="button">Button</button>
               <kbd>Connections: <code id="Connections" style="margin-left:7px">4</code></kbd>
           </div>
+
         </div>
+
         </div>
+        
             <div id="main">
-              
-                {%block main%}{%endblock%}
+              <div style="height:0.5px;background-color:white"></div>
+              <div class="toast_container">
+                 
+                </div>
+              {%block main%}{%endblock%}
             </div>
         </body>
         </html>
